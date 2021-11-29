@@ -21,10 +21,10 @@ export const Test = () => {
     //     }).then(data => console.log(data))
     // }, [])
     useEffect(() => {
-        axios.get("http://127.0.0.1:5000/api/")
+        axios.get("http://127.0.0.1:5000/api")
             .then(function (response) {
                 // handle success
-                console.log(response);
+                console.log(response.data);
             })
     }, [])
 
