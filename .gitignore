@@ -105,3 +105,6 @@ dist
 
 # MacOS Desktop Service
 .DS_Store
+
+# Virtual environment
+env/
