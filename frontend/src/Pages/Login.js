@@ -70,7 +70,7 @@ export const Login = () => {
                             {errors ? <p className="text-danger">{errors.username?.message}</p> : null}
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="loginPassword">
-                            <Form.Control type="text" placeholder="password" name="password" {...register("password")} />
+                            <Form.Control type="password" placeholder="password" name="password" {...register("password")} />
                             {errors ? <p className="text-danger">{errors.password?.message}</p> : null}
                         </Form.Group>
                         {errorMessage ?

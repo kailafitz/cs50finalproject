@@ -28,6 +28,10 @@ const Styledthead = styled.thead`
     background-color: #d6d6d6;
 `
 
+const StyledButton = styled(Button)`
+    white-space: pre;
+`
+
 export const Records = () => {
     const [data, setData] = useState([]);
     const { token } = useToken();
@@ -75,7 +79,7 @@ export const Records = () => {
                                                     <td>{formatter.format(record.net_pay)}</td>
                                                     <td>{formatDate(record.date_created)}</td>
                                                     <td className="text-center">
-                                                        <Button href={`/records/invoice_${record.id}`} target="_blank" className="w-100">View Invoice</Button>
+                                                        <StyledButton href={`/records/invoice_${record.id}`} target="_blank" className="w-100">View Invoice</StyledButton>
                                                     </td>
                                                     <td>
                                                         <div className="d-flex flex-row justify-content-between">

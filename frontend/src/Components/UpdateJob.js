@@ -15,9 +15,11 @@ const StyledIcon = styled(BiEdit)`
     height: 1.3rem;
 `
 const StyledButton = styled(Button)`
+    width: fit-content;
+
     @media only screen and (min-width: 728px) {
-        width: 45%;
-    }    
+        width: 100%;
+    }  
 `
 
 const editJobSchema = yup.object({
@@ -138,8 +140,7 @@ export const UpdateRecord = ({ id }) => {
 
     return (
         <>
-            <StyledButton variant="secondary" className="mb-1 mb-lg-0" onClick={handleShow}><StyledIcon className="text-dark" /></StyledButton>
-
+            <StyledButton variant="secondary" className="me-1" onClick={handleShow}><StyledIcon className="text-dark" /></StyledButton>
             <Modal show={show} onHide={handleClose} centered>
                 {dataCheck ? <>
                     <Modal.Header>

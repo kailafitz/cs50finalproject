@@ -2,17 +2,19 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import useToken from './useToken';
 import { Button, Modal } from 'react-bootstrap';
-import { RiDeleteBinLine } from 'react-icons/ri';
+import { BiTrash } from 'react-icons/bi';
 import styled from 'styled-components';
 
-const StyledIcon = styled(RiDeleteBinLine)`
+const StyledIcon = styled(BiTrash)`
     width: 1.3rem;
     height: 1.3rem;
 `
 
 const StyledButton = styled(Button)`
+    width: fit-content;
+
     @media only screen and (min-width: 728px) {
-        width: 45%;
+        width: 100%;
     }    
 `
 
@@ -39,7 +41,7 @@ export const DeleteJob = ({ id }) => {
 
     return (
         <>
-            <StyledButton variant="danger" onClick={handleShow}><StyledIcon className="text-white" /></StyledButton>
+            <StyledButton variant="danger" className="ms-1" onClick={handleShow}><StyledIcon className="text-white" /></StyledButton>
             <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header>
                     <Modal.Title>Delete this job</Modal.Title>
