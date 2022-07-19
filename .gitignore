@@ -108,3 +108,6 @@ dist
 
 # Virtual environment
 env/
+
+# Python cache
+__pycache__/
