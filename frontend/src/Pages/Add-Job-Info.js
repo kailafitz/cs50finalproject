@@ -119,7 +119,7 @@ export const AddJob = () => {
         "Access-Control-Allow-Origin": "*"
       }
     }).then(() => {
-      // window.location.href = 'http://localhost:3000/records'
+      window.location.href = 'http://localhost:3000/records'
     }).catch((e) => {
       let string = '';
       string = e.response.data.message;

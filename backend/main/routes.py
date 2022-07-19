@@ -141,46 +141,49 @@ def dashboard():
         return {"year": year, "grossPay": gross_pay, "taxDue": tax_due, "netPay": net_pay}
 
     else:
-        current_year = datetime.now().year
-        jobs = Job.query.filter(extract('year', Job.date_created)
-                                == current_year, Job.user_id == user.id).all()
-        serialised_jobs = jobs_schema.dump(jobs)
+        if not user:
+            return {"message": "Not found"}, 404
+        else:
+            current_year = datetime.now().year
+            jobs = Job.query.filter(extract('year', Job.date_created)
+                                    == current_year, Job.user_id == user.id).all()
+            serialised_jobs = jobs_schema.dump(jobs)
 
-        years = Job.query.filter_by(user_id=user.id).all()
-        serialised_years = jobs_schema.dump(years)
+            years = Job.query.filter_by(user_id=user.id).all()
+            serialised_years = jobs_schema.dump(years)
 
-        gross_pay = 0
-        tax_due = 0
-        net_pay = 0
-        years = []
+            gross_pay = 0
+            tax_due = 0
+            net_pay = 0
+            years = []
 
-        for job in serialised_jobs:
-            gross_pay += job['gross_pay']
-            tax_due += job['tax_due']
-            net_pay += job['net_pay']
+            for job in serialised_jobs:
+                gross_pay += job['gross_pay']
+                tax_due += job['tax_due']
+                net_pay += job['net_pay']
 
-        for year in serialised_years:
-            date = datetime.fromisoformat(year['date_created'])
-            if date.year not in years:
-                years.append(date.year)
+            for year in serialised_years:
+                date = datetime.fromisoformat(year['date_created'])
+                if date.year not in years:
+                    years.append(date.year)
 
-        years.sort(reverse=True)
+            years.sort(reverse=True)
 
-        return {"grossPay": gross_pay, "taxDue": tax_due, "netPay": net_pay, "years": years}
+            return {"grossPay": gross_pay, "taxDue": tax_due, "netPay": net_pay, "years": years}
 
 
 @app.route('/bank-details', methods=['GET', 'PUT'])
 @cross_origin(methods=['PUT'], headers=['Content-Type', 'Authorization'], origin='http://127.0.0.1:3000')
 @jwt_required()
 def updateBankAccount():
+    username_of_logged_in_user = get_jwt_identity()
+    user = User.query.filter_by(
+        username=username_of_logged_in_user).first()
+
     if request.method == 'PUT':
         data = request.get_json()
         bic = data['bic']
         iban = data['iban']
-
-        username_of_logged_in_user = get_jwt_identity()
-        user = User.query.filter_by(
-            username=username_of_logged_in_user).first()
         bank_account = BankAccount.query.filter_by(
             user_email=user.email).first()
         bank_account.bic = bic
@@ -188,41 +191,45 @@ def updateBankAccount():
         db.session.commit()
         return {"message": "Success"}, 200
     else:
-        username_of_logged_in_user = get_jwt_identity()
-        user = User.query.filter_by(
-            username=username_of_logged_in_user).first()
-        bank_account = BankAccount.query.filter_by(
-            user_email=user.email).first()
-        serialised_details = bank_account_schema.dump(bank_account)
-        return jsonify(serialised_details)
+        if not user:
+            return {"message": "Not found"}, 404
+        else:
+            bank_account = BankAccount.query.filter_by(
+                user_email=user.email).first()
+            serialised_details = bank_account_schema.dump(bank_account)
+            return jsonify(serialised_details)
 
 
 @app.route('/personal-details', methods=['GET', 'PUT'])
 @cross_origin(methods=['PUT'], headers=['Content-Type', 'Authorization'], origin='http://127.0.0.1:3000')
 @jwt_required()
 def updatePersonalDetails():
+    username_of_logged_in_user = get_jwt_identity()
+    user = User.query.filter_by(
+        username=username_of_logged_in_user).first()
+
     if request.method == 'PUT':
         data = request.get_json()
         vat_number = data['vat_number']
-
-        username_of_logged_in_user = get_jwt_identity()
-        user = User.query.filter_by(
-            username=username_of_logged_in_user).first()
         user.vat_number = vat_number
         db.session.commit()
         return {"message": "Success"}, 200
     else:
-        username_of_logged_in_user = get_jwt_identity()
-        user = User.query.filter_by(
-            username=username_of_logged_in_user).first()
-        serialised_details = user_schema.dump(user)
-        return jsonify(serialised_details)
+        if not user:
+            return {"message": "Not found"}, 404
+        else:
+            serialised_details = user_schema.dump(user)
+            return jsonify(serialised_details)
 
 
 @app.route('/add-job-info', methods=['GET', 'POST'])
 @cross_origin(methods=['POST'], headers=['Content-Type', 'Authorization'], origin='http://127.0.0.1:3000')
 @jwt_required()
 def addJobInfo():
+    username_of_logged_in_user = get_jwt_identity()
+    user = User.query.filter_by(
+        username=username_of_logged_in_user).first()
+
     if request.method == "POST":
         data = request.get_json()
         job_description = data['job_description']
@@ -244,10 +251,6 @@ def addJobInfo():
 
         net = gross_pay - tax
 
-        username_of_logged_in_user = get_jwt_identity()
-        user = User.query.filter_by(
-            username=username_of_logged_in_user).first()
-
         employer = Employer.query.filter_by(
             employer_name=employer_name).first()
         if employer:
@@ -265,15 +268,16 @@ def addJobInfo():
             db.session.commit()
         return {"message": "Success"}, 200
     else:
-        username_of_logged_in_user = get_jwt_identity()
-        user = User.query.filter_by(
-            username=username_of_logged_in_user).first()
-        employers = Employer.query.filter_by(user_id=user.id).all()
-        if employers:
-            serialised_employers = employers_schema.dump(employers)
-            return jsonify(serialised_employers)
+        if not user:
+            return {"message": "Not found"}, 404
         else:
-            return {"message": "No employers found"}, 200
+            employers = Employer.query.filter_by(user_id=user.id).all()
+
+            if employers:
+                serialised_employers = employers_schema.dump(employers)
+                return jsonify(serialised_employers)
+            else:
+                return {"message": "No employers found"}, 200
 
 
 @app.route('/records')
@@ -281,10 +285,13 @@ def addJobInfo():
 def records():
     username_of_logged_in_user = get_jwt_identity()
     user = User.query.filter_by(username=username_of_logged_in_user).first()
-    jobs = Job.query.filter_by(user_id=user.id).order_by(
-        Job.date_created.desc()).all()
-    serialised_jobs = jobs_schema.dump(jobs)
-    return jsonify(serialised_jobs)
+    if not user:
+        return {"message": "Not found"}, 404
+    else:
+        jobs = Job.query.filter_by(user_id=user.id).order_by(
+            Job.date_created.desc()).all()
+        serialised_jobs = jobs_schema.dump(jobs)
+        return jsonify(serialised_jobs)
 
 
 @app.route('/records/edit/<int:id>', methods=['GET', 'PUT'])
@@ -358,34 +365,43 @@ def delete_job(id):
     username_of_logged_in_user = get_jwt_identity()
     user = User.query.filter_by(
         username=username_of_logged_in_user).first()
-    if request.method == 'DELETE':
-        job = Job.query.filter_by(id=id, user_id=user.id).first()
-        db.session.delete(job)
-        db.session.commit()
-        return {"message": "Job deleted successfully"}, 200
+
+    if not user:
+        return {"message": "Not found"}, 404
+    else:
+        if request.method == 'DELETE':
+            job = Job.query.filter_by(id=id, user_id=user.id).first()
+            db.session.delete(job)
+            db.session.commit()
+            return {"message": "Job deleted successfully"}, 200
 
 
 @app.route('/records/<int:id>')
 @jwt_required()
 def records_by_id(id):
-    the_dict = dict()
     username_of_logged_in_user = get_jwt_identity()
-
     user = User.query.filter_by(username=username_of_logged_in_user).first()
-    job = Job.query.filter_by(id=id).first()
-    bank_account = BankAccount.query.filter_by(user_email=user.email).first()
-    user_address = UserAddress.query.filter_by(user_email=user.email).first()
-    employer = Employer.query.filter_by(
-        employer_name=job.employer_name).first()
 
-    serialised_user = user_schema.dump(user)
-    serialised_job = job_schema.dump(job)
-    serialised_bank_account = bank_account_schema.dump(bank_account)
-    serialised_user_address = user_address_schema.dump(user_address)
-    serialised_employer = employer_schema.dump(employer)
-    the_dict = jsonify(serialised_job,
-                       serialised_bank_account, serialised_user_address, serialised_user, serialised_employer)
-    return the_dict
+    if not user:
+        return {"message": "Not found"}, 404
+    else:
+        the_dict = dict()
+        job = Job.query.filter_by(id=id).first()
+        bank_account = BankAccount.query.filter_by(
+            user_email=user.email).first()
+        user_address = UserAddress.query.filter_by(
+            user_email=user.email).first()
+        employer = Employer.query.filter_by(
+            employer_name=job.employer_name).first()
+
+        serialised_user = user_schema.dump(user)
+        serialised_job = job_schema.dump(job)
+        serialised_bank_account = bank_account_schema.dump(bank_account)
+        serialised_user_address = user_address_schema.dump(user_address)
+        serialised_employer = employer_schema.dump(employer)
+        the_dict = jsonify(serialised_job,
+                           serialised_bank_account, serialised_user_address, serialised_user, serialised_employer)
+        return the_dict
 
 
 @app.route('/logout', methods=['GET'])

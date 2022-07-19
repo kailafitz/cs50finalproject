@@ -93,7 +93,7 @@ export const UpdateRecord = ({ id }) => {
     }, [data])
 
     const handleDate = (isTouched) => {
-        if (isTouched == true) {
+        if (isTouched === true) {
             setDateTouched(true);
         }
         else {

@@ -8,7 +8,7 @@ import { Register } from './pages/Register';
 import { Login } from './pages/Login';
 import { AddJob } from './pages/Add-Job-Info';
 import { Records } from './pages/Records';
-import { Record } from './components/Record';
+import { Invoice } from './components/Invoice';
 import { Navigation } from './components/Navigation';
 import { Settings } from './pages/Settings';
 import { Footer } from './components/Footer';
@@ -27,7 +27,7 @@ function App() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/add-job-info" element={<AddJob />} />
         <Route path="/records" element={<Records />} />
-        <Route path="/records/invoice_:id" element={<Record />} />
+        <Route path="/records/invoice_:id" element={<Invoice />} />
       </Routes>
       <Footer />
     </Router>
