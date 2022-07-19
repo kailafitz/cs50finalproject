@@ -1,30 +1,36 @@
-
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route
-} from "react-router-dom";
-
-// Import pages
-import { Test } from "./Pages/Test"
-import { Home } from "./Pages/Home"
-import { Verbs } from "./Pages/Verbs";
-
-// Import components
-import { Navigation } from "./Components/Navigation";
+import React from 'react';
+import 'react-date-picker/dist/DatePicker.css';
+import 'react-calendar/dist/Calendar.css';
+import './styles/custom_bootstrap.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Home } from './pages/Home';
+import { Register } from './pages/Register';
+import { Login } from './pages/Login';
+import { AddJob } from './pages/Add-Job-Info';
+import { Records } from './pages/Records';
+import { Record } from './components/Record';
+import { Navigation } from './components/Navigation';
+import { Settings } from './pages/Settings';
+import { Footer } from './components/Footer';
+import { Dashboard } from './components/Dashboard';
 
 function App() {
+
   return (
-    <div className="App">
+    <Router>
       <Navigation />
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/test" element={<Test />}></Route>
-          <Route path="/addverb" element={<Verbs />}></Route>
-        </Routes>
-      </Router>
-    </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/add-job-info" element={<AddJob />} />
+        <Route path="/records" element={<Records />} />
+        <Route path="/records/invoice_:id" element={<Record />} />
+      </Routes>
+      <Footer />
+    </Router>
   );
 }
 

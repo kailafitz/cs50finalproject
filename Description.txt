@@ -1,0 +1,10 @@
+Tax Application
+
+Function One:
+Takes an input of Gross Amount and posts to backend to record in database\
+
+Function Two:
+Download pdf of a tax record
+
+Function Three:
+Integrate login module}

@@ -1,0 +1,90 @@
+
+// 1. Functions
+@import "../../node_modules/bootstrap/scss/functions";
+
+// 2. Variables
+$navbar-light-toggler-border-color: none;
+
+$primary: #8DB5B3;
+$secondary: #90baca;
+
+$navbar-toggler-focus-width: 0;
+
+$grid-gutter-width: 0;
+
+$font-family-sans-serif: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+
+$h1-font-size: 5vw;
+
+// 3. Other stylesheets
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/mixins";
+@import "../../node_modules/bootstrap/scss/root";
+
+// 4. Utilities
+@import "../../node_modules/bootstrap/scss/utilities";
+
+// maps
+
+@import "../../node_modules/bootstrap/scss/reboot";
+@import "../../node_modules/bootstrap/scss/type";
+@import "../../node_modules/bootstrap/scss/images";
+@import "../../node_modules/bootstrap/scss/containers";
+@import "../../node_modules/bootstrap/scss/grid";
+@import "../../node_modules/bootstrap/scss/helpers";
+@import "../../node_modules/bootstrap/scss/transitions";
+
+@import "../../node_modules/bootstrap/scss/buttons";
+@import "../../node_modules/bootstrap/scss/close";
+@import "../../node_modules/bootstrap/scss/forms";
+@import "../../node_modules/bootstrap/scss/modal";
+@import "../../node_modules/bootstrap/scss/nav";
+@import "../../node_modules/bootstrap/scss/navbar";
+@import "../../node_modules/bootstrap/scss/placeholders";
+@import "../../node_modules/bootstrap/scss/tables";
+
+
+@import "../../node_modules/bootstrap/scss/utilities/api";
+
+
+h1, h5 {
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.hover:hover {
+    opacity: .6;
+    cursor: pointer;
+}
+
+// datetime-picker
+.react-date-picker__wrapper {
+    border: 0;
+}
+
+.react-calendar__tile--active {
+    background-color: $primary;
+    color: black;
+}
+
+.react-calendar__tile--now {
+    background-color: $secondary;
+}
+
+.react-calendar__month-view__days__day--weekend {
+    color: black;
+}
+
+abbr, abbr[title], abbr[data-bs-original-title] {
+    text-decoration: none;
+    text-transform: capitalize;
+}
+
+.react-date-picker__inputGroup__input:focus-visible {
+    border: 0;
+    outline: 0;
+}
+
+body {
+    -webkit-tap-highlight-color: $secondary;
+}
