@@ -8,6 +8,15 @@ import { GiTakeMyMoney } from 'react-icons/gi';
 import { HiReceiptTax } from 'react-icons/hi';
 import NotFound from '../media/not-found.json';
 import Lottie from "lottie-react";
+import styled from 'styled-components';
+
+const StyledContainer = styled(Container)`
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 1;
+`
 
 export const Dashboard = () => {
     const [data, setData] = useState([]);
@@ -50,7 +59,7 @@ export const Dashboard = () => {
     }
 
     return (
-        <Container className="flex-grow-1 mt-5">
+        <StyledContainer>
             {dataCheck && years.length !== 0 ? (
                 <>
                     <Row className="d-flex flex-column justify-content-center">
@@ -106,6 +115,6 @@ export const Dashboard = () => {
                     <a className="text-primary" href="/add-job-info">Add a job</a>
                 </Col>
             </Row>}
-        </Container>
+        </StyledContainer>
     )
 }
