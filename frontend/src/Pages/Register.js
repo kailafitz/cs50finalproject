@@ -59,20 +59,23 @@ export const Register = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(e);
-    const username = e.target[0].value;
-    const email = e.target[1].value;
-    const password = e.target[2].value;
-    const confirm_password = e.target[3].value;
-    const first_name = e.target[4].value;
-    const last_name = e.target[5].value;
-    const bic = e.target[6].value;
-    const iban = e.target[7].value;
-    const vat_number = e.target[8].value;
-    const line_1 = e.target[9].value;
-    const line_2 = e.target[10].value;
-    const town = e.target[11].value;
-    const region = e.target[12].value;
-    const country = e.target[13].value;
+    const username = e.target[3].value;
+    const email = e.target[4].value;
+    const password = e.target[5].value;
+    const confirm_password = e.target[6].value;
+    const first_name = e.target[7].value;
+    const last_name = e.target[8].value;
+    const bic = e.target[9].value;
+    const iban = e.target[10].value;
+    const vat_number = e.target[11].value;
+    const line_1 = e.target[12].value;
+    const line_2 = e.target[13].value;
+    const town = e.target[14].value;
+    const region = e.target[15].value;
+    const country = e.target[16].value;
+
+    console.log(password);
+    console.log(confirm_password);
     axios.post("http://localhost:5000/register", { "username": username, "email": email, "password": password, "confirm_password": confirm_password, "first_name": first_name, "last_name": last_name, "bic": bic, "iban": iban, "vat_number": vat_number, "line_1": line_1, "line_2": line_2, "town": town, "region": region, "country": country }).then(response => {
       setToken(response.data.access_token)
       window.location.href = 'http://localhost:3000/records'
@@ -182,7 +185,9 @@ export const Register = () => {
         </Row>
         <Row className="justify-content-center mb-5">
           <Col xs={9} md={5} lg={3}>
-
+            {
+              errorMessage ?
+                <ErrorMessage message={errorMessage} /> : null}
             <Row className="justify-content-between">
               <Col xs={5} lg={3}><Button variant="outline-primary" onClick={() => setStep(step - 1)} disabled={step === 0 ? true : false}>Previous</Button>
               </Col>
@@ -191,9 +196,6 @@ export const Register = () => {
                   <Button variant="primary" onClick={() => setStep(step + 1)}>Next</Button>
                 </Col> :
                 <Col xs={5} className="text-end">
-                  {
-                    errorMessage ?
-                      <ErrorMessage message={errorMessage} /> : null}
                   <Button type="submit" disabled={!agreement}>Register</Button>
                 </Col>
               }
