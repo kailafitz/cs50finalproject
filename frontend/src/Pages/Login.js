@@ -44,7 +44,6 @@ export const Login = () => {
         e.preventDefault();
         const username = e.target[0].value;
         const password = e.target[1].value;
-        console.log(username);
         axios.post("http://localhost:5000/login", { "username": username, "password": password }).then(response => {
             setToken(response.data.access_token)
             window.location.href = 'http://localhost:3000/records'

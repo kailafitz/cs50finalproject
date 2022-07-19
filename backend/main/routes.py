@@ -284,7 +284,6 @@ def records():
     jobs = Job.query.filter_by(user_id=user.id).order_by(
         Job.date_created.desc()).all()
     serialised_jobs = jobs_schema.dump(jobs)
-    print(serialised_jobs)
     return jsonify(serialised_jobs)
 
 

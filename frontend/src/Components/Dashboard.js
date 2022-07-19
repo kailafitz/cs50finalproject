@@ -6,6 +6,8 @@ import formatter from "../helpers/formatCurrency";
 import { GiReceiveMoney } from 'react-icons/gi';
 import { GiTakeMyMoney } from 'react-icons/gi';
 import { HiReceiptTax } from 'react-icons/hi';
+import NotFound from '../media/not-found.json';
+import Lottie from "lottie-react";
 
 export const Dashboard = () => {
     const [data, setData] = useState([]);
@@ -20,6 +22,7 @@ export const Dashboard = () => {
                     Authorization: 'Bearer ' + token
                 }
             }).then((response) => {
+                console.log(response);
                 setData(response.data);
                 setYears(response.data.years);
             }).catch(e => console.log(e));
@@ -47,6 +50,8 @@ export const Dashboard = () => {
         })
     }
 
+    console.log(years.length);
+
     return (
         <Container className="flex-grow-1 mt-5">
             <Row className="d-flex flex-column justify-content-center">
@@ -55,7 +60,8 @@ export const Dashboard = () => {
                     <h6>Your new home</h6>
                 </Col>
             </Row>
-            {dataCheck ? (<>
+
+            {dataCheck && years.length !== 0 ? (<>
                 <form onSubmit={(e) => onSubmit(e)}>
                     <Row className="justify-content-center">
                         <Col xs={8} md={2}>
@@ -95,7 +101,10 @@ export const Dashboard = () => {
                         </div>
                     </Col>
                 </Row>
-            </>) : null}
+            </>) : <Row><Col xs={12} md={6} className="text-center mx-auto">
+                <Lottie animationData={NotFound} loop={true} className="w-50 mx-auto" />
+                <h5>No data found</h5>
+                <a className="text-primary" href="/add-job-info">Add a job</a></Col></Row>}
         </Container>
     )
 }

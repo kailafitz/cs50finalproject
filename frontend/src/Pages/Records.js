@@ -92,7 +92,7 @@ export const Records = () => {
                     : <Col xs={12} md={6} className="text-center mx-auto">
                         <Lottie animationData={NotFound} loop={true} className="w-50 mx-auto" />
                         <h5>No records found</h5>
-                        <a className="text-primary" href="/add-invoice-info">Add a job</a></Col>}
+                        <a className="text-primary" href="/add-job-info">Add a job</a></Col>}
             </Row>
         </StyledContainer >
     )
