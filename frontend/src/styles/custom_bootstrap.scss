@@ -85,6 +85,12 @@ abbr, abbr[title], abbr[data-bs-original-title] {
     outline: 0;
 }
 
+.react-date-picker__calendar-button {
+    background: $primary;
+    padding: .5rem;
+    border-radius: .25rem;
+}
+
 body {
     -webkit-tap-highlight-color: $secondary;
 }

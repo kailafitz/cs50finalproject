@@ -1,10 +1,12 @@
-Tax Application
+# Activate virtual environment
+-> source env/bin/activate
 
-Function One:
-Takes an input of Gross Amount and posts to backend to record in database\
+# Install requirements.txt and package.json respectively
+-> pip istall -r requirements.txt
+-> npm install
 
-Function Two:
-Download pdf of a tax record
+# Activate backend
+-> python3 app.py
 
-Function Three:
-Integrate login module}
+# Activate frontend
+-> npm start

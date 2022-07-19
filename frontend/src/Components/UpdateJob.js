@@ -60,6 +60,7 @@ export const UpdateRecord = ({ id }) => {
     const [dataCheck, setDataCheck] = useState(false);
     const [data, setData] = useState([]);
     const [employerCheck, setEmployerCheck] = useState(false);
+    const [open, setOpen] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
