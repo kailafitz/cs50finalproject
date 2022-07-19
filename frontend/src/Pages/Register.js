@@ -58,7 +58,6 @@ export const Register = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
     const username = e.target[3].value;
     const email = e.target[4].value;
     const password = e.target[5].value;
@@ -73,9 +72,6 @@ export const Register = () => {
     const town = e.target[14].value;
     const region = e.target[15].value;
     const country = e.target[16].value;
-
-    console.log(password);
-    console.log(confirm_password);
     axios.post("http://localhost:5000/register", { "username": username, "email": email, "password": password, "confirm_password": confirm_password, "first_name": first_name, "last_name": last_name, "bic": bic, "iban": iban, "vat_number": vat_number, "line_1": line_1, "line_2": line_2, "town": town, "region": region, "country": country }).then(response => {
       setToken(response.data.access_token)
       window.location.href = 'http://localhost:3000/records'

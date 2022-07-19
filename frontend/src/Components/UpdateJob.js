@@ -116,7 +116,6 @@ export const UpdateRecord = ({ id }) => {
             employer_name = e.target[48].value;
             for (let i = 0; i < data.length; i++) {
                 if (data[1][i].employer_name === employer_name) {
-                    console.log(data[1][i]);
                     employer_line_1 = data[1][i].employer_line_1;
                     employer_line_2 = data[1][i].employer_line_2;
                     employer_town = data[1][i].employer_town;
