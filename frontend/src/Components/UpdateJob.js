@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import useToken from './useToken';
 import axios from 'axios';
 import { Button, Modal, Form } from 'react-bootstrap';
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { BiEdit } from 'react-icons/bi';
@@ -25,6 +25,7 @@ const StyledButton = styled(Button)`
 const editJobSchema = yup.object({
     jobDescription: yup.string().required('This is required'),
     grossPay: yup.number().required('This is required'),
+    dateCreated: yup.date().required('This is required'),
     employerCheck: yup.boolean(),
     employerSelect: yup.string().when("employerCheck", {
         is: false,
@@ -62,11 +63,12 @@ export const UpdateRecord = ({ id }) => {
     const [dataCheck, setDataCheck] = useState(false);
     const [data, setData] = useState([]);
     const [employerCheck, setEmployerCheck] = useState(false);
+    const [dateTouched, setDateTouched] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, control, formState: { errors } } = useForm({
         mode: 'onBlur',
         reValidateMode: 'onSubmit',
         resolver: yupResolver(editJobSchema)
@@ -84,20 +86,26 @@ export const UpdateRecord = ({ id }) => {
         }
     }, [data]);
 
-
-    const [date, onChange] = useState(new Date());
-
     useEffect(() => {
         if (data.length > 0) {
             setDataCheck(true);
-            onChange(new Date(data[0].date_created));
         }
     }, [data])
+
+    const handleDate = (isTouched) => {
+        if (isTouched == true) {
+            setDateTouched(true);
+        }
+        else {
+            setDateTouched(false);
+        }
+    }
 
     const onSubmit = (e) => {
         e.preventDefault();
         const job_description = e.target[0].value;
         const gross_pay = e.target[1].value;
+        const date = e.target[2].value;
         let employer_name = "";
         let employer_line_1 = "";
         let employer_line_2 = "";
@@ -106,15 +114,31 @@ export const UpdateRecord = ({ id }) => {
         let employer_country = "";
 
         if (employerCheck === true) {
-            employer_name = e.target[50].value;
-            employer_line_1 = e.target[51].value;
-            employer_line_2 = e.target[52].value;
-            employer_town = e.target[53].value;
-            employer_region = e.target[54].value;
-            employer_country = e.target[55].value;
+            if (dateTouched === true) {
+                employer_name = e.target[50].value;
+                employer_line_1 = e.target[51].value;
+                employer_line_2 = e.target[52].value;
+                employer_town = e.target[53].value;
+                employer_region = e.target[54].value;
+                employer_country = e.target[55].value;
+            }
+            else {
+                employer_name = e.target[10].value;
+                employer_line_1 = e.target[11].value;
+                employer_line_2 = e.target[12].value;
+                employer_town = e.target[13].value;
+                employer_region = e.target[14].value;
+                employer_country = e.target[15].value;
+            }
         }
         else {
-            employer_name = e.target[48].value;
+            if (dateTouched === true) {
+                employer_name = e.target[48].value;
+            }
+            else {
+                employer_name = e.target[8].value;
+            }
+
             for (let i = 0; i < data.length; i++) {
                 if (data[1][i].employer_name === employer_name) {
                     employer_line_1 = data[1][i].employer_line_1;
@@ -163,7 +187,17 @@ export const UpdateRecord = ({ id }) => {
 
                             <Form.Group controlId="">
                                 <Form.Label className="d-block">Date</Form.Label>
-                                <DatePicker onChange={onChange} value={date} calendarIcon={<BsCalendar3 />} className="d-block form-control" />
+                                <Controller
+                                    control={control}
+                                    name="dateCreated"
+                                    defaultValue={new Date(data[0].date_created)}
+                                    render={({
+                                        field: { onChange, onBlur, value },
+                                        fieldState: { isTouched },
+                                    }) => (
+                                        <DatePicker onChange={onChange} onCalendarOpen={() => handleDate(isTouched)} value={value} onBlur={onBlur} calendarIcon={<BsCalendar3 />} className="d-block form-control" />
+                                    )}
+                                />
                             </Form.Group>
 
                             <hr className="my-5 w-75 mx-auto" />

@@ -119,7 +119,7 @@ export const AddJob = () => {
         "Access-Control-Allow-Origin": "*"
       }
     }).then(() => {
-      window.location.href = 'http://localhost:3000/records'
+      // window.location.href = 'http://localhost:3000/records'
     }).catch((e) => {
       let string = '';
       string = e.response.data.message;
@@ -200,7 +200,7 @@ export const AddJob = () => {
               <ErrorMessage message={errorMessage} /> : null}
 
             <Button variant="primary" type="submit" className="w-100">
-              Submit
+              Add job record
             </Button>
           </form>
         </Col>

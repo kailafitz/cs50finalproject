@@ -19,7 +19,7 @@ const StyledContainer = styled(Container)`
 `
 
 const StyledCol = styled(Col)`
-    height: 60vh;
+    height: 55vh;
 `
 
 const Styledthead = styled.thead`
