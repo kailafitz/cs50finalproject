@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import useToken from './useToken';
 import axios from 'axios';
-import { Button, Modal, Form, SplitButton } from 'react-bootstrap';
+import { Button, Modal, Form } from 'react-bootstrap';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
@@ -60,7 +60,6 @@ export const UpdateRecord = ({ id }) => {
     const [dataCheck, setDataCheck] = useState(false);
     const [data, setData] = useState([]);
     const [employerCheck, setEmployerCheck] = useState(false);
-    const [open, setOpen] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
