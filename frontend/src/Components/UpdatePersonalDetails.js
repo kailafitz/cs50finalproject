@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { BiEdit } from 'react-icons/bi';
+import { ErrorMessage } from '../components/ErrorMessage';
 
 const personalDetailsSchema = yup.object({
     vat_number: yup.string().required('This is required'),
@@ -16,15 +17,16 @@ export const UpdatePersonalDetails = () => {
     const [data, setData] = useState([]);
     const [dataCheck, setDataCheck] = useState(false);
     const [show, setShow] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors, clearErrors } } = useForm({
         mode: 'onBlur',
         reValidateMode: 'onSubmit',
         resolver: yupResolver(personalDetailsSchema)
     });
+
+    const handleClose = () => { setErrorMessage(''); setShow(false); clearErrors(); };
+    const handleShow = () => setShow(true);
 
     useEffect(() => {
         if (Object.keys(data).length <= 0) {
@@ -52,9 +54,14 @@ export const UpdatePersonalDetails = () => {
                 Authorization: 'Bearer ' + token,
                 "Access-Control-Allow-Origin": "*"
             }
-        }).then(() => {
-            window.location.reload();
-        })
+        }).then((response) => {
+            setData(response.data);
+            handleClose();
+        }).catch((e) => {
+            let string = '';
+            string = e.response.data.message;
+            setErrorMessage(string);
+        });
     }
 
     return (
@@ -78,8 +85,8 @@ export const UpdatePersonalDetails = () => {
                             </Table>
                         </>
                     ) : <Row className="d-flex justify-content-center">
-                        <Col xs={12} md={4}>
-                            <h5>No VAT number found.</h5>
+                        <Col xs={10}>
+                            <h5>No personal details found</h5>
                         </Col>
                     </Row>
                     }
@@ -88,19 +95,21 @@ export const UpdatePersonalDetails = () => {
                     <Modal show={show} onHide={handleClose} centered>
                         <form onSubmit={(e) => handleSubmit(onSubmit(e))}>
                             <Modal.Header>
-                                <Modal.Title>Update Bank A/C details</Modal.Title>
+                                <Modal.Title>Update Personal Details</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
                                 <Form.Group className="mb-3" controlId="">
-                                    <Form.Control type="string" name="vat_number" placeholder="vat #" {...register("vat_number")} />
+                                    <Form.Control type="string" name="vat_number" placeholder="vat #" defaultValue={data.vat_number} {...register("vat_number")} />
                                     {errors ? <p className="text-danger">{errors.vat_number?.message}</p> : null}
                                 </Form.Group>
+                                {errorMessage ?
+                                    <ErrorMessage message={errorMessage} /> : null}
                             </Modal.Body>
                             <Modal.Footer>
-                                <Button variant="secondary" onClick={handleClose}>
-                                    Close
+                                <Button variant="danger" onClick={handleClose}>
+                                    Cancel
                                 </Button>
-                                <Button variant="primary" type="submit" onClick={handleClose}>
+                                <Button variant="primary" type="submit">
                                     Save Changes
                                 </Button>
                             </Modal.Footer>

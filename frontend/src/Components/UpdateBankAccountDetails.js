@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { BiEdit } from 'react-icons/bi';
+import { ErrorMessage } from '../components/ErrorMessage';
 
 const bankAccountSchema = yup.object({
     bic: yup.string().required('This is required'),
@@ -17,15 +18,16 @@ export const UpdateBankAccountDetails = () => {
     const [data, setData] = useState([]);
     const [dataCheck, setDataCheck] = useState(false);
     const [show, setShow] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors, clearErrors } } = useForm({
         mode: 'onBlur',
         reValidateMode: 'onSubmit',
         resolver: yupResolver(bankAccountSchema)
     });
+
+    const handleClose = () => { setErrorMessage(''); setShow(false); clearErrors(); };
+    const handleShow = () => setShow(true);
 
     useEffect(() => {
         if (Object.keys(data).length <= 0) {
@@ -54,16 +56,21 @@ export const UpdateBankAccountDetails = () => {
                 Authorization: 'Bearer ' + token,
                 "Access-Control-Allow-Origin": "*"
             }
-        }).then(() => {
-            window.location.reload();
-        })
+        }).then((response) => {
+            setData(response.data);
+            handleClose();
+        }).catch((e) => {
+            let string = '';
+            string = e.response.data.message;
+            setErrorMessage(string);
+        });
     }
 
     return (
         <Container>
             <Row className="d-flex justify-content-center">
                 <Col xs={12} md={9}>
-                    {dataCheck ? (
+                    {dataCheck || data != '' ? (
                         <>
                             <h5 className="mb-5 text-start d-flex align-items-center">Bank Account Details <BiEdit className="ms-2 hover" onClick={handleShow} /></h5>
                             <Table striped borderless>
@@ -82,8 +89,8 @@ export const UpdateBankAccountDetails = () => {
                             </Table>
                         </>
                     ) : <Row className="d-flex justify-content-center">
-                        <Col xs={12} md={4}>
-                            <h5>No bank details have been saved.</h5>
+                        <Col xs={10}>
+                            <h5>No bank details found</h5>
                         </Col>
                     </Row>
                     }
@@ -92,23 +99,25 @@ export const UpdateBankAccountDetails = () => {
                     <Modal show={show} onHide={handleClose} centered>
                         <form onSubmit={(e) => handleSubmit(onSubmit(e))}>
                             <Modal.Header>
-                                <Modal.Title>Update Bank A/C details</Modal.Title>
+                                <Modal.Title>Update Bank Details</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
                                 <Form.Group className="mb-3" controlId="">
-                                    <Form.Control type="string" name="bic" placeholder="bic" {...register("bic")} />
+                                    <Form.Control type="string" name="bic" placeholder="bic" defaultValue={data.bic} {...register("bic")} />
                                     {errors ? <p className="text-danger">{errors.bic?.message}</p> : null}
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="">
-                                    <Form.Control type="string" name="iban" placeholder="iban" {...register("iban")} />
+                                    <Form.Control type="string" name="iban" placeholder="iban" defaultValue={data.iban} {...register("iban")} />
                                     {errors ? <p className="text-danger">{errors.iban?.message}</p> : null}
                                 </Form.Group>
+                                {errorMessage ?
+                                    <ErrorMessage message={errorMessage} /> : null}
                             </Modal.Body>
                             <Modal.Footer>
-                                <Button variant="secondary" onClick={handleClose}>
-                                    Close
+                                <Button variant="danger" onClick={handleClose}>
+                                    Cancel
                                 </Button>
-                                <Button variant="primary" type="submit" onClick={handleClose}>
+                                <Button variant="primary" type="submit">
                                     Save Changes
                                 </Button>
                             </Modal.Footer>

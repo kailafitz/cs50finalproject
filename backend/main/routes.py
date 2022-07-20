@@ -11,6 +11,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import cross_origin
 from datetime import datetime, timedelta, timezone
 from dateutil.parser import *
+import smtplib
+
+# server = smtplib.SMTP('smtp.gmail.com', 587)
+# server.starttls()
+# server.login('kailaanakin@gmail.com', '@F1$$ydesignsMF')
+# server.sendmail('kailaanakin@gmail.com', 'mikhailafitzpatrick@yahoo.com', 'This is sent from Lancer')
 
 jobs_schema = JobSchema(many=True)
 job_schema = JobSchema()
@@ -105,6 +111,27 @@ def login():
         return {"message": "User does not exist"}, 401
     else:
         if check_password_hash(user.password, password):
+            # fun-fact: "from" is a keyword in python, you can't use it as variable.. did anyone check if this code even works?
+            # fromMy = 'mikhailafitzpatrick@yahoo.com'
+            # to = 'kailaanakin@gmail.com'
+            # subj = 'TheSubject'
+            # message_text = 'Hello Or any thing you want to send'
+
+            # msg = "From: %s\nTo: %s\nSubject: %s\n\n%s" % (
+            #     fromMy, to, subj, message_text)
+
+            # username = str('mikhailafitzpatrick@yahoo.com')
+            # password = str('TPOFmniscmr3')
+
+            # try:
+            #     server = smtplib.SMTP("smtp.mail.yahoo.com", 587)
+            #     server.login(username, password)
+            #     server.sendmail(fromMy, to, msg)
+            #     server.quit()
+            #     print('ok the email has sent')
+            # except:
+            #     print('can\'t send the Email')
+
             access_token = create_access_token(identity=username)
             response = {"access_token": access_token, "message": "Success"}
             return response, 200
@@ -180,24 +207,27 @@ def updateBankAccount():
     user = User.query.filter_by(
         username=username_of_logged_in_user).first()
 
+    if not user:
+        return {"message": "Not found"}, 404
+
     if request.method == 'PUT':
         data = request.get_json()
         bic = data['bic']
         iban = data['iban']
+
+        if not bic or not iban:
+            return {"message": "Values must not be empty"}, 400
+
         bank_account = BankAccount.query.filter_by(
             user_email=user.email).first()
         bank_account.bic = bic
         bank_account.iban = iban
         db.session.commit()
-        return {"message": "Success"}, 200
-    else:
-        if not user:
-            return {"message": "Not found"}, 404
-        else:
-            bank_account = BankAccount.query.filter_by(
-                user_email=user.email).first()
-            serialised_details = bank_account_schema.dump(bank_account)
-            return jsonify(serialised_details)
+
+    bank_account = BankAccount.query.filter_by(
+        user_email=user.email).first()
+    serialised_details = bank_account_schema.dump(bank_account)
+    return jsonify(serialised_details), 200
 
 
 @app.route('/personal-details', methods=['GET', 'PUT'])
@@ -208,18 +238,21 @@ def updatePersonalDetails():
     user = User.query.filter_by(
         username=username_of_logged_in_user).first()
 
+    if not user:
+            return {"message": "Not found"}, 404
+
     if request.method == 'PUT':
         data = request.get_json()
         vat_number = data['vat_number']
+
+        if vat_number == '':
+            return {"message": "Values must not be empty"}, 400
+
         user.vat_number = vat_number
         db.session.commit()
-        return {"message": "Success"}, 200
-    else:
-        if not user:
-            return {"message": "Not found"}, 404
-        else:
-            serialised_details = user_schema.dump(user)
-            return jsonify(serialised_details)
+
+    serialised_details = user_schema.dump(user)
+    return jsonify(serialised_details)
 
 
 @app.route('/add-job-info', methods=['GET', 'POST'])
