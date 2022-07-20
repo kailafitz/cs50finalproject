@@ -74,7 +74,13 @@ export const UpdateRecord = ({ id }) => {
         resolver: yupResolver(editJobSchema)
     });
 
-    const handleClose = () => { setErrorMessage(''); setShow(false); clearErrors(); };
+    const handleClose = () => {
+        setErrorMessage('');
+        setShow(false);
+        if (errors) {
+            clearErrors();
+        }
+    };
     const handleShow = () => setShow(true);
 
     useEffect(() => {
@@ -160,7 +166,7 @@ export const UpdateRecord = ({ id }) => {
             }
         }).then(() => {
             handleClose();
-            window.location.href = 'http://localhost:3000/records'
+            window.location.href = 'http://localhost:3000/records';
         }).catch((e) => {
             let string = '';
             string = e.response.data.message;

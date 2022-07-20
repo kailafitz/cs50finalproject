@@ -33,7 +33,7 @@ export const DeleteJob = ({ id }) => {
                 "Access-Control-Allow-Origin": "*"
             }
         }).then(() => {
-            window.location.href = 'http://localhost:3000/records'
+            window.location.href = 'http://localhost:3000/records';
         }).catch((e) => {
             console.log(e);
         })

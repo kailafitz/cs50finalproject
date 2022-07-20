@@ -65,7 +65,7 @@ export const Records = () => {
                                             <th>Tax</th>
                                             <th>Net</th>
                                             <th>Date_Created</th>
-                                            <th className="d-none d-md-table-cell">Invoice</th>
+                                            <th className="d-none d-xl-table-cell">Invoice</th>
                                             <th>Actions</th>
                                         </tr>
                                     </Styledthead>
@@ -78,7 +78,7 @@ export const Records = () => {
                                                     <td>{formatter.format(record.tax_due)}</td>
                                                     <td>{formatter.format(record.net_pay)}</td>
                                                     <td>{formatDate(record.date_created)}</td>
-                                                    <td className="d-none d-md-table-cell text-center">
+                                                    <td className="d-none d-xl-table-cell text-center">
                                                         <StyledButton href={`/records/invoice_${record.id}`} target="_blank" className="w-100">View Invoice</StyledButton>
                                                     </td>
                                                     <td>

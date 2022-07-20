@@ -45,7 +45,7 @@ export const Navigation = () => {
       }
     }).then((response) => {
       removeToken();
-      window.location.href = 'http://localhost:3000/'
+      window.location.href = 'http://localhost:3000/';
       return response;
     }).catch((err) => {
       return err;

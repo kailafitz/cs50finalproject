@@ -5,7 +5,7 @@ import useToken from './useToken';
 import { jsPDF } from "jspdf";
 import html2canvas from 'html2canvas';
 import { useParams } from 'react-router-dom';
-import { RiFolderDownloadFill } from 'react-icons/ri';
+import { HiOutlineDownload } from 'react-icons/hi';
 import styled from 'styled-components';
 import formatDate from "../helpers/formatDate";
 import formatter from "../helpers/formatCurrency";
@@ -21,11 +21,9 @@ const StyledP = styled.p`
   font-size: 1.6rem;
   margin: 0;
 `
-
 const StyledButton = styled(Button)`
-  border-radius: 50%;
-  top: 1em;
-  left: 1em;
+  top: .5em;
+  left: .5em;
 `
 
 export const Invoice = () => {
@@ -64,20 +62,20 @@ export const Invoice = () => {
                 const pdfWidth = pdf.internal.pageSize.getWidth();
                 const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
                 pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-                pdf.save('invoice.pdf');
+                pdf.save(`${data[1].first_name + '_' + data[1].last_name}_Invoice_${data[0].id}`);
             });
     }
 
     return (
         <>
-            <StyledButton size="sm" className="position-fixed text-white" onClick={() => downloadPDF()}><RiFolderDownloadFill /></StyledButton>
-            <Container fluid="lg" className="position-relative" id="invoice">
+            <StyledButton className="position-fixed text-white d-xl-block rounded-3" onClick={() => downloadPDF()}><HiOutlineDownload /></StyledButton>
+            <Container fluid="xl" className="position-relative" id="invoice">
                 {dataCheck ? (
                     <>
-                        <Row className="justify-content-center bg-primary p-5 d-md-flex d-none text-white">
-                            <Col md={10}>
+                        <Row className="justify-content-center bg-primary p-5 d-xl-flex d-none text-white">
+                            <Col xl={10}>
                                 <Row className="justify-content-center">
-                                    <Col md={6} className="text-start pt-5">
+                                    <Col xl={6} className="text-start pt-5">
                                         <div className="mb-5">
                                             <h3 className="mb-1 fw-bold">Billed to</h3>
                                             <StyledP className="m-0">{data[4].employer_name}</StyledP>
@@ -122,36 +120,36 @@ export const Invoice = () => {
                                 </Row>
                             </Col>
                         </Row>
-                        <Row className="justify-content-center p-5 d-md-flex d-none">
-                            <Col md={10} className="border-bottom border-1 border-primary mb-3 mt-5">
+                        <Row className="justify-content-center p-5 d-xl-flex d-none">
+                            <Col xl={10} className="border-bottom border-1 border-primary mb-3 mt-5">
                                 <Row className="mb-4">
-                                    <Col md={7}>
+                                    <Col xl={7}>
                                         <StyledP className="fw-bold">Item Description</StyledP>
                                     </Col>
-                                    <Col md={2}>
+                                    <Col xl={2}>
                                         <StyledP className="fw-bold">Price</StyledP>
                                     </Col>
-                                    <Col md={3} className="text-end">
+                                    <Col xl={3} className="text-end">
                                         <StyledP className="fw-bold">Total</StyledP>
                                     </Col>
                                 </Row>
                             </Col>
-                            <Col md={10} className="mb-3">
+                            <Col xl={10} className="mb-3">
                                 <Row>
-                                    <Col md={7}>
+                                    <Col xl={7}>
                                         <StyledP>{data[0].job_description}</StyledP></Col>
-                                    <Col md={2}><StyledP>{formatter.format(data[0].gross_pay)}</StyledP></Col>
-                                    <Col md={3} className="text-end" />
+                                    <Col xl={2}><StyledP>{formatter.format(data[0].gross_pay)}</StyledP></Col>
+                                    <Col xl={3} className="text-end" />
                                 </Row>
                             </Col>
-                            <StyledCol md={10} className="border-bottom border-3 border-primary mb-4" />
-                            <Col md={10} className="d-flex flex-row justify-content-between mb-5">
+                            <StyledCol xl={10} className="border-bottom border-3 border-primary mb-4" />
+                            <Col xl={10} className="d-flex flex-row justify-content-between mb-5">
                                 <StyledP className="fw-bold">Grand Total</StyledP>
                                 <StyledP>{formatter.format(data[0].gross_pay)}</StyledP>
                             </Col>
                         </Row>
-                        <Row className="justify-content-center bg-primary p-5 d-md-flex d-none text-white">
-                            <Col md={9} lg={6} className="text-center my-5">
+                        <Row className="justify-content-center bg-primary p-5 d-xl-flex d-none text-white">
+                            <Col xl={6} className="text-center my-5">
                                 <h4 className="mb-5">Thank You!</h4>
                                 <StyledP className="mb-1">Get in touch with any queries you may have.</StyledP>
                                 <StyledP className="m-0">{data[3].email}</StyledP>

@@ -18,6 +18,21 @@ const StyledContainer = styled(Container)`
   flex-grow: 1;
 `
 
+const StyledGrossIcon = styled(GiReceiveMoney)`
+    width: 4em;
+    height: 4em;
+`
+
+const StyledTaxIcon = styled(HiReceiptTax)`
+    width: 4em;
+    height: 4em;
+`
+
+const StyledNetIcon = styled(GiTakeMyMoney)`
+    width: 4em;
+    height: 4em;
+`
+
 export const Dashboard = () => {
     const [data, setData] = useState([]);
     const [years, setYears] = useState([]);
@@ -74,32 +89,32 @@ export const Dashboard = () => {
                                 <Form.Select aria-label="select" className="mb-5 mb-md-3" onChange={(e) => onSubmit(e)}>
                                     {years.length > 0 ? years.map((year) => {
                                         return <option key={year} value={year}>{year}</option>
-                                    }) : <option>Nothing found</option>}
+                                    }) : <option>No data found</option>}
                                 </Form.Select>
                             </Col>
                         </Row>
                     </form>
                     <Row className="justify-content-center mb-5 mb-md-0">
-                        <Col xs={8} md={3} className="pe-md-3">
+                        <Col xs={8} md={4} lg={3} className="pe-md-3">
                             <div className="bg-secondary rounded-3 p-3 d-flex flex-column justify-content-between">
-                                <GiReceiveMoney className="w-25 h-25 px-3 rounded-2 bg-light mb-5" />
+                                <StyledGrossIcon className="p-2 rounded-2 bg-light mb-5" />
                                 <div>
                                     <p className="m-0">Gross Pay</p>
                                     <h5 className="m-0">{formatter.format(data.grossPay)}</h5>
                                 </div>
                             </div>
                         </Col>
-                        <Col xs={8} md={3} className="pe-md-3 mt-3 mt-md-0">
+                        <Col xs={8} md={4} lg={3} className="pe-md-3 mt-3 mt-md-0">
                             <div className="bg-secondary rounded-3 p-3 d-flex flex-column justify-content-between">
-                                <HiReceiptTax className="w-25 h-25 px-3 rounded-2 bg-light mb-5" />
+                                <StyledTaxIcon className="p-2 rounded-2 bg-light mb-5" />
                                 <div>
                                     <p className="m-0">Tax Due</p>
                                     <h5 className="m-0">{formatter.format(data.taxDue)}</h5>
                                 </div>
                             </div></Col>
-                        <Col xs={8} md={3} className="mt-3 mt-md-0">
+                        <Col xs={8} md={4} lg={3} className="mt-3 mt-md-0">
                             <div className="bg-secondary rounded-3 p-3 d-flex flex-column justify-content-between">
-                                <GiTakeMyMoney className="w-25 h-25 px-3 rounded-2 bg-light mb-5" />
+                                <StyledNetIcon className="p-2 rounded-2 bg-light mb-5" />
                                 <div>
                                     <p className="m-0">Net Pay</p>
                                     <h5 className="m-0">{formatter.format(data.netPay)}</h5>

@@ -26,7 +26,13 @@ export const UpdateBankAccountDetails = () => {
         resolver: yupResolver(bankAccountSchema)
     });
 
-    const handleClose = () => { setErrorMessage(''); setShow(false); clearErrors(); };
+    const handleClose = () => {
+        setErrorMessage('');
+        setShow(false);
+        if (errors) {
+            clearErrors();
+        }
+    };
     const handleShow = () => setShow(true);
 
     useEffect(() => {
@@ -43,7 +49,7 @@ export const UpdateBankAccountDetails = () => {
 
     useEffect(() => {
         if (Object.keys(data).length > 0) {
-            setDataCheck(true)
+            setDataCheck(true);
         }
     }, [data])
 
