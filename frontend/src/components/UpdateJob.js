@@ -68,20 +68,11 @@ export const UpdateRecord = ({ id }) => {
     const [employerCheck, setEmployerCheck] = useState(false);
     const [dateTouched, setDateTouched] = useState(false);
 
-    const { register, handleSubmit, control, formState: { errors, clearErrors } } = useForm({
+    const { register, handleSubmit, control, clearErrors, setValue, formState: { errors } } = useForm({
         mode: 'onBlur',
         reValidateMode: 'onSubmit',
         resolver: yupResolver(editJobSchema)
     });
-
-    const handleClose = () => {
-        setErrorMessage('');
-        setShow(false);
-        if (errors) {
-            clearErrors();
-        }
-    };
-    const handleShow = () => setShow(true);
 
     useEffect(() => {
         if (Object.keys(data).length <= 0) {
@@ -165,7 +156,11 @@ export const UpdateRecord = ({ id }) => {
                 "Access-Control-Allow-Origin": "*"
             }
         }).then(() => {
-            handleClose();
+            setErrorMessage('');
+            setShow(false);
+            if (errors) {
+                clearErrors();
+            }
             window.location.href = 'http://localhost:3000/records';
         }).catch((e) => {
             let string = '';
@@ -174,10 +169,23 @@ export const UpdateRecord = ({ id }) => {
         });
     }
 
+    const handleCancel = () => {
+        setErrorMessage('');
+        setShow(false);
+        setValue('jobDescription', data[0].job_description);
+        setValue('grossPay', data[0].gross_pay);
+        setValue('dateCreated', new Date(data[0].date_created));
+        setValue('employerSelect', data[0].employer_name);
+        if (errors) {
+            clearErrors();
+        }
+    };
+    const handleShow = () => setShow(true);
+
     return (
         <>
             <StyledButton variant="secondary" className="me-1" onClick={handleShow}><StyledIcon className="text-dark" /></StyledButton>
-            <Modal show={show} onHide={handleClose} centered>
+            <Modal show={show} onHide={handleCancel} backdrop="static" centered>
                 {dataCheck ? <>
                     <Modal.Header>
                         <Modal.Title>Edit this job</Modal.Title>
@@ -267,7 +275,7 @@ export const UpdateRecord = ({ id }) => {
                                 <ErrorMessage message={errorMessage} /> : null}
                         </Modal.Body>
                         <Modal.Footer>
-                            <Button variant="danger" onClick={handleClose}>
+                            <Button variant="danger" onClick={handleCancel}>
                                 Cancel
                             </Button>
                             <Button variant="primary" type="submit">

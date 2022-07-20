@@ -9,7 +9,7 @@ import { BiEdit } from 'react-icons/bi';
 import { ErrorMessage } from '../components/ErrorMessage';
 
 const personalDetailsSchema = yup.object({
-    vat_number: yup.string().required('This is required'),
+    vatNumber: yup.string().required('This is required'),
 }).required();
 
 export const UpdatePersonalDetails = () => {
@@ -19,20 +19,11 @@ export const UpdatePersonalDetails = () => {
     const [show, setShow] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
-    const { register, handleSubmit, formState: { errors, clearErrors } } = useForm({
+    const { register, handleSubmit, clearErrors, setValue, formState: { errors } } = useForm({
         mode: 'onBlur',
         reValidateMode: 'onSubmit',
         resolver: yupResolver(personalDetailsSchema)
     });
-
-    const handleClose = () => {
-        setErrorMessage('');
-        setShow(false);
-        if (errors) {
-            clearErrors();
-        }
-    };
-    const handleShow = () => setShow(true);
 
     useEffect(() => {
         if (Object.keys(data).length <= 0) {
@@ -61,14 +52,28 @@ export const UpdatePersonalDetails = () => {
                 "Access-Control-Allow-Origin": "*"
             }
         }).then((response) => {
+            setErrorMessage('');
+            setShow(false);
+            if (errors) {
+                clearErrors();
+            }
             setData(response.data);
-            handleClose();
         }).catch((e) => {
             let string = '';
             string = e.response.data.message;
             setErrorMessage(string);
         });
     }
+
+    const handleCancel = () => {
+        setErrorMessage('');
+        setShow(false);
+        setValue('vatNumber', data.vat_number);
+        if (errors) {
+            clearErrors();
+        }
+    };
+    const handleShow = () => setShow(true);
 
     return (
         <Container className="mb-5">
@@ -98,7 +103,7 @@ export const UpdatePersonalDetails = () => {
                     }
 
 
-                    <Modal show={show} onHide={handleClose} centered>
+                    <Modal show={show} onHide={handleCancel} backdrop="static" centered>
                         <form onSubmit={(e) => handleSubmit(onSubmit(e))}>
                             <Modal.Header>
                                 <Modal.Title>Update Personal Details</Modal.Title>
@@ -106,14 +111,14 @@ export const UpdatePersonalDetails = () => {
                             <Modal.Body>
                                 <Form.Group className="mb-3" controlId="">
                                     <Form.Label>VAT #</Form.Label>
-                                    <Form.Control type="string" name="vat_number" placeholder="vat #" defaultValue={data.vat_number} {...register("vat_number")} />
-                                    {errors ? <p className="text-danger">{errors.vat_number?.message}</p> : null}
+                                    <Form.Control type="string" name="vat_number" placeholder="vat #" defaultValue={data.vat_number} {...register("vatNumber")} />
+                                    {errors ? <p className="text-danger">{errors.vatNumber?.message}</p> : null}
                                 </Form.Group>
                                 {errorMessage ?
                                     <ErrorMessage message={errorMessage} /> : null}
                             </Modal.Body>
                             <Modal.Footer>
-                                <Button variant="danger" onClick={handleClose}>
+                                <Button variant="danger" onClick={handleCancel}>
                                     Cancel
                                 </Button>
                                 <Button variant="primary" type="submit">

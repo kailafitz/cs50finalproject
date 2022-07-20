@@ -42,7 +42,7 @@ export const DeleteJob = ({ id }) => {
     return (
         <>
             <StyledButton variant="danger" className="ms-1" onClick={handleShow}><StyledIcon className="text-white" /></StyledButton>
-            <Modal show={show} onHide={handleClose} centered>
+            <Modal show={show} onHide={handleClose} backdrop="static" centered>
                 <Modal.Header>
                     <Modal.Title>Delete this job</Modal.Title>
                 </Modal.Header>

@@ -20,20 +20,11 @@ export const UpdateBankAccountDetails = () => {
     const [show, setShow] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
-    const { register, handleSubmit, formState: { errors, clearErrors } } = useForm({
+    const { register, handleSubmit, clearErrors, setValue, formState: { errors } } = useForm({
         mode: 'onBlur',
         reValidateMode: 'onSubmit',
         resolver: yupResolver(bankAccountSchema)
     });
-
-    const handleClose = () => {
-        setErrorMessage('');
-        setShow(false);
-        if (errors) {
-            clearErrors();
-        }
-    };
-    const handleShow = () => setShow(true);
 
     useEffect(() => {
         if (Object.keys(data).length <= 0) {
@@ -64,13 +55,28 @@ export const UpdateBankAccountDetails = () => {
             }
         }).then((response) => {
             setData(response.data);
-            handleClose();
+            setErrorMessage('');
+            setShow(false);
+            if (errors) {
+                clearErrors();
+            }
         }).catch((e) => {
             let string = '';
             string = e.response.data.message;
             setErrorMessage(string);
         });
     }
+
+    const handleCancel = () => {
+        setErrorMessage('');
+        setShow(false);
+        setValue('bic', data.bic);
+        setValue('iban', data.iban);
+        if (errors) {
+            clearErrors();
+        }
+    };
+    const handleShow = () => setShow(true);
 
     return (
         <Container>
@@ -102,7 +108,7 @@ export const UpdateBankAccountDetails = () => {
                     }
 
 
-                    <Modal show={show} onHide={handleClose} centered>
+                    <Modal show={show} onHide={handleCancel} backdrop="static" centered>
                         <form onSubmit={(e) => handleSubmit(onSubmit(e))}>
                             <Modal.Header>
                                 <Modal.Title>Update Bank Details</Modal.Title>
@@ -122,7 +128,7 @@ export const UpdateBankAccountDetails = () => {
                                     <ErrorMessage message={errorMessage} /> : null}
                             </Modal.Body>
                             <Modal.Footer>
-                                <Button variant="danger" onClick={handleClose}>
+                                <Button variant="danger" onClick={handleCancel}>
                                     Cancel
                                 </Button>
                                 <Button variant="primary" type="submit">
