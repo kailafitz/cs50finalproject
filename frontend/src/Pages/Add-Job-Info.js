@@ -18,7 +18,7 @@ const StyledContainer = styled(Container)`
 
 const addJobSchema = yup.object({
   jobDescription: yup.string().required('This is required'),
-  grossPay: yup.number().required('This is required'),
+  grossPay: yup.number().required('This is required').min(1, 'An amount is required').typeError('This is required').default(0),
   employerCheck: yup.boolean(),
   employerSelect: yup.string().when("employerCheck", {
     is: false,
@@ -84,7 +84,7 @@ export const AddJob = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     const job_description = e.target[0].value;
-    const gross_pay = e.target[1].value;
+    const gross_pay = e.target[1].value === '' ? 0.0 : e.target[1].value;
     let employer_name = "";
     let employer_line_1 = "";
     let employer_line_2 = "";

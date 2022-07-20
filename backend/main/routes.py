@@ -30,31 +30,31 @@ employer_schema = EmployerSchema()
 
 @app.route('/', methods=['GET'])
 def index():
-    return {"message": "Home"}, 200
+    return {'message': 'Home'}, 200
 
 
 @app.route('/active')
 @jwt_required()
 def active():
-    exp_timestamp = get_jwt()["exp"]
+    exp_timestamp = get_jwt()['exp']
     now = datetime.now(timezone.utc)
     target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
     if target_timestamp > exp_timestamp:
-        return "invalid token", 400
+        return 'invalid token', 400
     else:
-        return "valid token", 200
+        return 'valid token', 200
 
 
 @app.route('/records/active')
 @jwt_required()
 def active2():
-    exp_timestamp = get_jwt()["exp"]
+    exp_timestamp = get_jwt()['exp']
     now = datetime.now(timezone.utc)
     target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
     if target_timestamp > exp_timestamp:
-        return "invalid token", 400
+        return 'invalid token', 400
     else:
-        return "valid token", 200
+        return 'valid token', 200
 
 
 @app.route('/register', methods=['POST'])
@@ -76,10 +76,13 @@ def register():
     region = data['region']
     country = data['country']
 
+    if not username or not email or not password or not confirm_password or not first_name or not last_name or not bic or not iban or not vat_number or not line_1 or not line_2 or not town or not region or not country:
+        return {'message': 'Values must not be empty'}, 400
+
     user = User.query.filter_by(username=username).first()
     if user is None:
         if password == confirm_password:
-            hashed_password = generate_password_hash(password, "sha256")
+            hashed_password = generate_password_hash(password, 'sha256')
             new_user = User(username=username, email=email,
                             password=hashed_password, vat_number=vat_number)
             bank_account = BankAccount(
@@ -91,12 +94,12 @@ def register():
             db.session.add(user_address)
             db.session.commit()
             access_token = create_access_token(identity=username)
-            response = {"access_token": access_token}
+            response = {'access_token': access_token}
             return response, 200
         else:
-            return {"message": "Passwords are not matching"}, 400
+            return {'message': 'Passwords are not matching'}, 400
     else:
-        return {"message": "User already in existence"}, 400
+        return {'message': 'Username is already in use'}, 400
 
 
 @app.route('/login', methods=['POST'])
@@ -106,25 +109,28 @@ def login():
     username = data['username']
     password = data['password']
 
+    if not username or not password:
+        return {'message': 'Values must not be empty'}, 400
+
     user = User.query.filter_by(username=username).first()
     if user is None:
-        return {"message": "User does not exist"}, 401
+        return {'message': 'User does not exist'}, 401
     else:
         if check_password_hash(user.password, password):
-            # fun-fact: "from" is a keyword in python, you can't use it as variable.. did anyone check if this code even works?
+            # fun-fact: 'from' is a keyword in python, you can't use it as variable.. did anyone check if this code even works?
             # fromMy = 'mikhailafitzpatrick@yahoo.com'
             # to = 'kailaanakin@gmail.com'
             # subj = 'TheSubject'
             # message_text = 'Hello Or any thing you want to send'
 
-            # msg = "From: %s\nTo: %s\nSubject: %s\n\n%s" % (
+            # msg = 'From: %s\nTo: %s\nSubject: %s\n\n%s' % (
             #     fromMy, to, subj, message_text)
 
             # username = str('mikhailafitzpatrick@yahoo.com')
             # password = str('TPOFmniscmr3')
 
             # try:
-            #     server = smtplib.SMTP("smtp.mail.yahoo.com", 587)
+            #     server = smtplib.SMTP('smtp.mail.yahoo.com', 587)
             #     server.login(username, password)
             #     server.sendmail(fromMy, to, msg)
             #     server.quit()
@@ -133,10 +139,10 @@ def login():
             #     print('can\'t send the Email')
 
             access_token = create_access_token(identity=username)
-            response = {"access_token": access_token, "message": "Success"}
+            response = {'access_token': access_token, 'message': 'Success'}
             return response, 200
         else:
-            return {"message": "Incorrect password"}, 401
+            return {'message': 'Incorrect password'}, 401
 
 
 @app.route('/dashboard', methods=['GET', 'POST'])
@@ -146,6 +152,9 @@ def dashboard():
     username_of_logged_in_user = get_jwt_identity()
     user = User.query.filter_by(
         username=username_of_logged_in_user).first()
+
+    if not user:
+        return {'message': 'Not found'}, 404
 
     if request.method == 'POST':
         data = request.get_json()
@@ -165,38 +174,35 @@ def dashboard():
             tax_due += job['tax_due']
             net_pay += job['net_pay']
 
-        return {"year": year, "grossPay": gross_pay, "taxDue": tax_due, "netPay": net_pay}
+        return {'year': year, 'grossPay': gross_pay, 'taxDue': tax_due, 'netPay': net_pay}
 
     else:
-        if not user:
-            return {"message": "Not found"}, 404
-        else:
-            current_year = datetime.now().year
-            jobs = Job.query.filter(extract('year', Job.date_created)
-                                    == current_year, Job.user_id == user.id).all()
-            serialised_jobs = jobs_schema.dump(jobs)
+        current_year = datetime.now().year
+        jobs = Job.query.filter(extract('year', Job.date_created)
+                                == current_year, Job.user_id == user.id).all()
+        serialised_jobs = jobs_schema.dump(jobs)
 
-            years = Job.query.filter_by(user_id=user.id).all()
-            serialised_years = jobs_schema.dump(years)
+        years = Job.query.filter_by(user_id=user.id).all()
+        serialised_years = jobs_schema.dump(years)
 
-            gross_pay = 0
-            tax_due = 0
-            net_pay = 0
-            years = []
+        gross_pay = 0
+        tax_due = 0
+        net_pay = 0
+        years = []
 
-            for job in serialised_jobs:
-                gross_pay += job['gross_pay']
-                tax_due += job['tax_due']
-                net_pay += job['net_pay']
+        for job in serialised_jobs:
+            gross_pay += job['gross_pay']
+            tax_due += job['tax_due']
+            net_pay += job['net_pay']
 
-            for year in serialised_years:
-                date = datetime.fromisoformat(year['date_created'])
-                if date.year not in years:
-                    years.append(date.year)
+        for year in serialised_years:
+            date = datetime.fromisoformat(year['date_created'])
+            if date.year not in years:
+                years.append(date.year)
 
-            years.sort(reverse=True)
+        years.sort(reverse=True)
 
-            return {"grossPay": gross_pay, "taxDue": tax_due, "netPay": net_pay, "years": years}
+        return {'grossPay': gross_pay, 'taxDue': tax_due, 'netPay': net_pay, 'years': years}
 
 
 @app.route('/bank-details', methods=['GET', 'PUT'])
@@ -208,7 +214,7 @@ def updateBankAccount():
         username=username_of_logged_in_user).first()
 
     if not user:
-        return {"message": "Not found"}, 404
+        return {'message': 'Not found'}, 404
 
     if request.method == 'PUT':
         data = request.get_json()
@@ -216,7 +222,7 @@ def updateBankAccount():
         iban = data['iban']
 
         if not bic or not iban:
-            return {"message": "Values must not be empty"}, 400
+            return {'message': 'Values must not be empty'}, 400
 
         bank_account = BankAccount.query.filter_by(
             user_email=user.email).first()
@@ -239,14 +245,14 @@ def updatePersonalDetails():
         username=username_of_logged_in_user).first()
 
     if not user:
-            return {"message": "Not found"}, 404
+        return {'message': 'Not found'}, 404
 
     if request.method == 'PUT':
         data = request.get_json()
         vat_number = data['vat_number']
 
         if vat_number == '':
-            return {"message": "Values must not be empty"}, 400
+            return {'message': 'Values must not be empty'}, 400
 
         user.vat_number = vat_number
         db.session.commit()
@@ -263,16 +269,22 @@ def addJobInfo():
     user = User.query.filter_by(
         username=username_of_logged_in_user).first()
 
-    if request.method == "POST":
+    if not user:
+        return {'message': 'Not found'}, 404
+
+    if request.method == 'POST':
         data = request.get_json()
         job_description = data['job_description']
         gross_pay = float(data['gross_pay'])
-        employer_name = data["employer_name"]
-        employer_line_1 = data["employer_line_1"]
-        employer_line_2 = data["employer_line_2"]
-        employer_town = data["employer_town"]
-        employer_region = data["employer_region"]
-        employer_country = data["employer_country"]
+        employer_name = data['employer_name']
+        employer_line_1 = data['employer_line_1']
+        employer_line_2 = data['employer_line_2']
+        employer_town = data['employer_town']
+        employer_region = data['employer_region']
+        employer_country = data['employer_country']
+
+        if job_description == '' or gross_pay == 0.0 or employer_name == '' or employer_name == 'Select an employer':
+            return {"message": "Values must not be empty"}, 400
 
         tax = 0
         net = 0
@@ -299,18 +311,15 @@ def addJobInfo():
             db.session.add(new_employer)
             db.session.add(new_job)
             db.session.commit()
-        return {"message": "Success"}, 200
+        return {'message': 'Success'}, 200
     else:
-        if not user:
-            return {"message": "Not found"}, 404
-        else:
-            employers = Employer.query.filter_by(user_id=user.id).all()
+        employers = Employer.query.filter_by(user_id=user.id).all()
 
-            if employers:
-                serialised_employers = employers_schema.dump(employers)
-                return jsonify(serialised_employers)
-            else:
-                return {"message": "No employers found"}, 200
+        if employers:
+            serialised_employers = employers_schema.dump(employers)
+            return jsonify(serialised_employers)
+        else:
+            return {'message': 'No employers found'}, 200
 
 
 @app.route('/records')
@@ -319,7 +328,7 @@ def records():
     username_of_logged_in_user = get_jwt_identity()
     user = User.query.filter_by(username=username_of_logged_in_user).first()
     if not user:
-        return {"message": "Not found"}, 404
+        return {'message': 'Not found'}, 404
     else:
         jobs = Job.query.filter_by(user_id=user.id).order_by(
             Job.date_created.desc()).all()
@@ -337,13 +346,13 @@ def edit_record(id):
         data = request.get_json()
         job_description = data['job_description']
         gross_pay = float(data['gross_pay'])
-        date = parser().parse(data["date_created"])
-        employer_name = data["employer_name"]
-        employer_line_1 = data["employer_line_1"]
-        employer_line_2 = data["employer_line_2"]
-        employer_town = data["employer_town"]
-        employer_region = data["employer_region"]
-        employer_country = data["employer_country"]
+        date = parser().parse(data['date_created'])
+        employer_name = data['employer_name']
+        employer_line_1 = data['employer_line_1']
+        employer_line_2 = data['employer_line_2']
+        employer_town = data['employer_town']
+        employer_region = data['employer_region']
+        employer_country = data['employer_country']
 
         job = Job.query.filter_by(id=id).first()
 
@@ -380,7 +389,7 @@ def edit_record(id):
             db.session.add(new_employer)
             db.session.add(job)
             db.session.commit()
-        return {"message": "Success"}, 200
+        return {'message': 'Success'}, 200
 
     else:
         employers = Employer.query.filter_by(user_id=user.id).all()
@@ -400,13 +409,13 @@ def delete_job(id):
         username=username_of_logged_in_user).first()
 
     if not user:
-        return {"message": "Not found"}, 404
+        return {'message': 'Not found'}, 404
     else:
         if request.method == 'DELETE':
             job = Job.query.filter_by(id=id, user_id=user.id).first()
             db.session.delete(job)
             db.session.commit()
-            return {"message": "Job deleted successfully"}, 200
+            return {'message': 'Job deleted successfully'}, 200
 
 
 @app.route('/records/<int:id>')
@@ -416,7 +425,7 @@ def records_by_id(id):
     user = User.query.filter_by(username=username_of_logged_in_user).first()
 
     if not user:
-        return {"message": "Not found"}, 404
+        return {'message': 'Not found'}, 404
     else:
         the_dict = dict()
         job = Job.query.filter_by(id=id).first()
@@ -440,6 +449,6 @@ def records_by_id(id):
 @app.route('/logout', methods=['GET'])
 @jwt_required()
 def logout():
-    response = jsonify({"msg": "logout successful"})
+    response = jsonify({'msg': 'logout successful'})
     unset_jwt_cookies(response)
     return response

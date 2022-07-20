@@ -99,6 +99,7 @@ export const UpdatePersonalDetails = () => {
                             </Modal.Header>
                             <Modal.Body>
                                 <Form.Group className="mb-3" controlId="">
+                                    <Form.Label>VAT #</Form.Label>
                                     <Form.Control type="string" name="vat_number" placeholder="vat #" defaultValue={data.vat_number} {...register("vat_number")} />
                                     {errors ? <p className="text-danger">{errors.vat_number?.message}</p> : null}
                                 </Form.Group>

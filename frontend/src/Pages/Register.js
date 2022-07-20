@@ -121,8 +121,6 @@ export const Register = () => {
               </Form.Group>
             </div>
 
-            {/* <hr className="my-5 border-bottom border-dark border-2 w-50 mx-auto" /> */}
-
             <div className={step === 1 ? "d-block" : "d-none"}>
               <Form.Group className="mb-3" controlId="registerfirst_name">
                 <Form.Control type="string" name="first_name" placeholder="first name" {...register("firstName")} />
@@ -145,8 +143,6 @@ export const Register = () => {
                 {errors ? <p className="text-danger">{errors.vatNumber?.message}</p> : null}
               </Form.Group>
             </div>
-
-            {/* <hr className="my-5 border-bottom border-dark border-2 w-50 mx-auto" /> */}
 
             <div className={step === 2 ? "d-block" : "d-none"}>
               <Form.Group className="mb-3" controlId="registerline_1">
