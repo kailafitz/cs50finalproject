@@ -9720,6 +9720,11 @@ abbr, abbr[title], abbr[data-bs-original-title] {
   border-radius: .25rem;
 }
 
+.react-date-picker__clear-button__icon svg, .react-date-picker__clear-button {
+  display: none;
+  visibility: hidden;
+}
+
 body {
   -webkit-tap-highlight-color: #90baca;
 }

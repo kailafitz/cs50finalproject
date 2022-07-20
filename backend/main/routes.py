@@ -354,6 +354,9 @@ def edit_record(id):
         employer_region = data['employer_region']
         employer_country = data['employer_country']
 
+        if job_description == '' or gross_pay == 0.0 or employer_name == '' or employer_name == 'Select an employer':
+            return {"message": "Values must not be empty"}, 400
+
         job = Job.query.filter_by(id=id).first()
 
         tax = 0

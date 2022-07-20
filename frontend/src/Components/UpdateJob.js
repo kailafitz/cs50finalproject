@@ -5,6 +5,7 @@ import { Button, Modal, Form } from 'react-bootstrap';
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import { ErrorMessage } from '../components/ErrorMessage';
 import { BiEdit } from 'react-icons/bi';
 import { BsCalendar3 } from 'react-icons/bs';
 import DatePicker from 'react-date-picker';
@@ -24,7 +25,8 @@ const StyledButton = styled(Button)`
 
 const editJobSchema = yup.object({
     jobDescription: yup.string().required('This is required'),
-    grossPay: yup.number().required('This is required'),
+
+    grossPay: yup.number().required('This is required').min(1, 'An amount > 1 is required').typeError('This is required'),
     dateCreated: yup.date().required('This is required'),
     employerCheck: yup.boolean(),
     employerSelect: yup.string().when("employerCheck", {
@@ -62,17 +64,18 @@ export const UpdateRecord = ({ id }) => {
     const [show, setShow] = useState(false);
     const [dataCheck, setDataCheck] = useState(false);
     const [data, setData] = useState([]);
+    const [errorMessage, setErrorMessage] = useState('');
     const [employerCheck, setEmployerCheck] = useState(false);
     const [dateTouched, setDateTouched] = useState(false);
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
-    const { register, handleSubmit, control, formState: { errors } } = useForm({
+    const { register, handleSubmit, control, formState: { errors, clearErrors } } = useForm({
         mode: 'onBlur',
         reValidateMode: 'onSubmit',
         resolver: yupResolver(editJobSchema)
     });
+
+    const handleClose = () => { setErrorMessage(''); setShow(false); clearErrors(); };
+    const handleShow = () => setShow(true);
 
     useEffect(() => {
         if (Object.keys(data).length <= 0) {
@@ -104,7 +107,7 @@ export const UpdateRecord = ({ id }) => {
     const onSubmit = (e) => {
         e.preventDefault();
         const job_description = e.target[0].value;
-        const gross_pay = e.target[1].value;
+        const gross_pay = e.target[1].value === '' ? 0.0 : e.target[1].value;
         const date = e.target[2].value;
         let employer_name = "";
         let employer_line_1 = "";
@@ -156,10 +159,13 @@ export const UpdateRecord = ({ id }) => {
                 "Access-Control-Allow-Origin": "*"
             }
         }).then(() => {
+            handleClose();
             window.location.href = 'http://localhost:3000/records'
         }).catch((e) => {
-            console.log(e);
-        })
+            let string = '';
+            string = e.response.data.message;
+            setErrorMessage(string);
+        });
     }
 
     return (
@@ -251,17 +257,19 @@ export const UpdateRecord = ({ id }) => {
                                     <Form.Control type="string" name="employer_country" placeholder="country" {...register("employerCountry")} />
                                     {errors ? <p className="text-danger">{errors.employerCountry?.message}</p> : null}
                                 </Form.Group></> : null}
+                            {errorMessage ?
+                                <ErrorMessage message={errorMessage} /> : null}
                         </Modal.Body>
                         <Modal.Footer>
-                            <Button variant="secondary" onClick={handleClose}>
-                                Close
+                            <Button variant="danger" onClick={handleClose}>
+                                Cancel
                             </Button>
-                            <Button variant="primary" type="submit" onClick={handleClose}>
+                            <Button variant="primary" type="submit">
                                 Save Changes
                             </Button>
                         </Modal.Footer>
                     </form>
-                </> : <h2>Something went wrong.</h2>}
+                </> : <h3>Something went wrong</h3>}
             </Modal>
         </>
 
