@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Form } from 'react-bootstrap';
 import axios from "axios";
-import useToken from '../components/useToken';
+import useToken from './useToken';
 import formatter from "../helpers/formatCurrency";
 import { GiReceiveMoney } from 'react-icons/gi';
 import { GiTakeMyMoney } from 'react-icons/gi';
