@@ -130,11 +130,11 @@ export const AddJob = () => {
   return (
     <StyledContainer className="flex-grow-1">
       <Row className="justify-content-center">
-        <Col xs={12} className="mb-4 text-center">
+        <Col xs={10} className="mb-4 text-center">
           <h1>New Job</h1>
           <h6>Insert your gross pay and we will calculate the tax due</h6>
         </Col>
-        <Col xs={12} md={5} lg={3}>
+        <Col xs={10} md={5} lg={3}>
           <form onSubmit={(e) => handleSubmit(onSubmit(e))}>
             <Form.Group className="mb-3" controlId="">
               <Form.Control type="string" name="job_description" placeholder="job description" {...register("jobDescription")} />

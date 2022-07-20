@@ -78,7 +78,7 @@ export const UpdatePersonalDetails = () => {
     return (
         <Container className="mb-5">
             <Row className="d-flex justify-content-center">
-                <Col xs={12} md={9}>
+                <Col xs={11} md={9}>
                     {dataCheck ? (
                         <>
                             <h5 className="mb-5 text-start d-flex align-items-center">Personal Details<BiEdit className="ms-2 hover" onClick={handleShow} /></h5>
@@ -95,11 +95,8 @@ export const UpdatePersonalDetails = () => {
                                 </tbody>
                             </Table>
                         </>
-                    ) : <Row className="d-flex justify-content-center">
-                        <Col xs={10}>
-                            <h5>No personal details found</h5>
-                        </Col>
-                    </Row>
+                    ) :
+                        <h5>No personal details found</h5>
                     }
 
 

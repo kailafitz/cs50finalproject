@@ -11,11 +11,11 @@ import Lottie from "lottie-react";
 import styled from 'styled-components';
 
 const StyledContainer = styled(Container)`
-  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   flex-grow: 1;
+  padding-top: 10vh;
 `
 
 const StyledGrossIcon = styled(GiReceiveMoney)`

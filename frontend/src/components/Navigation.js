@@ -66,13 +66,13 @@ export const Navigation = () => {
                 <div className="d-flex flex-column flex-lg-row">
                   <Nav.Link href="/dashboard">Dashboard</Nav.Link>
                   <Nav.Link href="/records">Records</Nav.Link>
-                  <Nav.Link href="/add-job-info">New Job</Nav.Link>
+                  <Nav.Link href="/add-job">New Job</Nav.Link>
                   <Nav.Link href="/settings">Settings</Nav.Link>
                 </div>
 
                 <hr className="border-bottom border-dark border-2 w-50 mx-auto" />
 
-                <Button type="submit" className="mt-3 mt-lg-0" onClick={handleClick}>Logout</Button>
+                <Button type="submit" className="my-3 my-lg-0" onClick={handleClick}>Logout</Button>
               </div>
             ) :
               <>

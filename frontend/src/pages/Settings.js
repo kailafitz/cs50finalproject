@@ -25,7 +25,7 @@ export const Settings = () => {
         <StyledContainer className="flex-grow-1">
             <Row><Col xs={12} className="mb-5 mt-5 mt-md-0 text-center">
                 <h1>Settings</h1>
-                <h6 className="mb-5">Let's change it up</h6>
+                <h6 className="mb-md-5">Let's change it up</h6>
             </Col></Row>
             <Row className="justify-content-center">
                 <Col xs={11} md={6}>

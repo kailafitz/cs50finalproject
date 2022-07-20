@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { Register } from './pages/Register';
 import { Login } from './pages/Login';
-import { AddJob } from './pages/Add-Job-Info';
+import { AddJob } from './pages/AddJob';
 import { Records } from './pages/Records';
 import { Invoice } from './components/Invoice';
 import { Navigation } from './components/Navigation';
@@ -25,7 +25,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/settings" element={<Settings />} />
-        <Route path="/add-job-info" element={<AddJob />} />
+        <Route path="/add-job" element={<AddJob />} />
         <Route path="/records" element={<Records />} />
         <Route path="/records/invoice_:id" element={<Invoice />} />
       </Routes>

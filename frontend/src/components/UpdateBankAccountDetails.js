@@ -81,7 +81,7 @@ export const UpdateBankAccountDetails = () => {
     return (
         <Container>
             <Row className="d-flex justify-content-center">
-                <Col xs={12} md={9}>
+                <Col xs={11} md={9}>
                     {dataCheck || data != '' ? (
                         <>
                             <h5 className="mb-5 text-start d-flex align-items-center">Bank Account Details <BiEdit className="ms-2 hover" onClick={handleShow} /></h5>
@@ -100,11 +100,8 @@ export const UpdateBankAccountDetails = () => {
                                 </tbody>
                             </Table>
                         </>
-                    ) : <Row className="d-flex justify-content-center">
-                        <Col xs={10}>
-                            <h5>No bank details found</h5>
-                        </Col>
-                    </Row>
+                    ) :
+                        <h5>No bank details found</h5>
                     }
 
 

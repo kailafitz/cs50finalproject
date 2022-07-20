@@ -188,7 +188,7 @@ export const UpdateRecord = ({ id }) => {
             <Modal show={show} onHide={handleCancel} backdrop="static" centered>
                 {dataCheck ? <>
                     <Modal.Header>
-                        <Modal.Title>Edit this job</Modal.Title>
+                        <Modal.Title>Update this job</Modal.Title>
                     </Modal.Header>
                     <form onSubmit={(e) => handleSubmit(onSubmit(e))}>
                         <Modal.Body>

@@ -16,6 +16,7 @@ const StyledContainer = styled(Container)`
   flex-direction: column;
   justify-content: center;
   position: relative;
+  padding-top: 10vh;
 `
 
 const StyledCol = styled(Col)`
