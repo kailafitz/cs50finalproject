@@ -19,22 +19,6 @@ export const Navigation = () => {
     }
   }, [])
 
-  useEffect(() => {
-    axios.get("active", {
-      headers: {
-        Authorization: 'Bearer ' + token
-      }
-    }).then((response) => {
-      if (response.status === 200) {
-        setIsAuthorised(true);
-      } else {
-        setIsAuthorised(false);
-      }
-    }).catch(err => {
-      setIsAuthorised(false);
-      return err;
-    });
-  }, []);
 
   const handleClick = () => {
     axios.get("logout", {
@@ -49,6 +33,30 @@ export const Navigation = () => {
       return err;
     });
   }
+
+
+  useEffect(() => {
+    axios.get("active", {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    }).then((response) => {
+      if (response.status === 200) {
+        setIsAuthorised(true);
+      } else {
+        setIsAuthorised(false);
+        if (window.location.href !== 'http://localhost:3000/') {
+          handleClick();
+        }
+      }
+    }).catch(err => {
+      setIsAuthorised(false);
+      if (window.location.href !== 'http://localhost:3000/') {
+        handleClick();
+      }
+      return err;
+    });
+  }, []);
 
   return (
     <Navbar expand="lg" className={`w-100 bg-primary mb- ${show === true ? `d-block` : `d-none`}`}>

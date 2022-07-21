@@ -66,7 +66,6 @@ export const UpdateRecord = ({ id }) => {
     const [data, setData] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
     const [employerCheck, setEmployerCheck] = useState(false);
-    const [dateTouched, setDateTouched] = useState(false);
 
     const { register, handleSubmit, control, clearErrors, watch, setValue, formState: { errors } } = useForm({
         mode: 'onBlur',
@@ -92,12 +91,9 @@ export const UpdateRecord = ({ id }) => {
         }
     }, [data])
 
-    const handleOpen = () => {
-        setDateTouched(true);
-    }
-
     const onSubmit = (e) => {
         e.preventDefault();
+        console.log(e);
         const job_description = e.target[0].value;
         const gross_pay = e.target[1].value === '' ? 0.0 : e.target[1].value;
         const date = e.target[2].value;
@@ -109,32 +105,15 @@ export const UpdateRecord = ({ id }) => {
         let employer_country = "";
 
         if (employerCheck === true) {
-            if (dateTouched === true) {
-                employer_name = e.target[50].value;
-                employer_line_1 = e.target[51].value;
-                employer_line_2 = e.target[52].value;
-                employer_town = e.target[53].value;
-                employer_region = e.target[54].value;
-                employer_country = e.target[55].value;
-            }
-            else {
-                employer_name = e.target[10].value;
-                employer_line_1 = e.target[11].value;
-                employer_line_2 = e.target[12].value;
-                employer_town = e.target[13].value;
-                employer_region = e.target[14].value;
-                employer_country = e.target[15].value;
-            }
+            employer_name = watch('employerName');
+            employer_line_1 = watch('employerLine1');
+            employer_line_2 = watch('employerLine2');
+            employer_town = watch('employerTown');
+            employer_region = watch('employerRegion');
+            employer_country = watch('employerCountry');
         }
         else {
-            if (dateTouched === true) {
-                console.log("48");
-                employer_name = e.target[48].value;
-            }
-            else {
-                console.log("8");
-                employer_name = e.target[8].value;
-            }
+            employer_name = watch('employerSelect');
 
             for (let i = 0; i < data.length; i++) {
                 if (data[1][i].employer_name === employer_name) {
@@ -211,7 +190,7 @@ export const UpdateRecord = ({ id }) => {
                                     render={({
                                         field: { onChange, onBlur, value },
                                     }) => (
-                                        <DatePicker onChange={onChange} onCalendarOpen={() => handleOpen()} value={value} onBlur={onBlur} calendarIcon={<BsCalendar3 />} className="d-block form-control" />
+                                        <DatePicker onChange={onChange} value={value} onBlur={onBlur} calendarIcon={<BsCalendar3 />} maxDate={new Date()} className="d-block form-control" />
                                     )}
                                 />
                             </Form.Group>

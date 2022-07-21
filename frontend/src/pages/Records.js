@@ -11,12 +11,16 @@ import { UpdateRecord } from "../components/UpdateJob";
 import { DeleteJob } from "../components/DeleteJob";
 
 const StyledContainer = styled(Container)`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-  padding-top: 10vh;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    padding-top: 10vh;
+
+    @media only screen and (min-width: 728px) {
+        padding-top: 0;
+    }  
 `
 
 const StyledCol = styled(Col)`
