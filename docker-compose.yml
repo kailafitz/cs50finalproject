@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    networks:
+      - lancer-network
+
+  frontend:
+    build: ./frontend
+    expose:
+      - "3000"
+    ports:
+      - "3000:3000"
+    networks:
+      - lancer-network
+    depends_on:
+      - backend
+
+networks:
+  lancer-network:

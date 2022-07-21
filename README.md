@@ -103,6 +103,11 @@
 - UpdateJob.js is a component that can be called to update a Job record
 - DeleteJob.js is a component that can be called to delete a Job record
 
+###### Notes on AddJob.js
+
+- List of Employer objects associated with user are received
+- There is a chance to select an employer from this list or add a new employer with the use of a switch input. If the switch is off, a user selects a previous employer for the job. Else, a new employer can be inputed and submitted
+
 ###### Notes on UpdateJob.js
 
 - Job id gets passed from Records.js
@@ -110,9 +115,13 @@
 - List of Employer objects associated with user are also received
 - There is a chance to select an employer from this list or add a new employer with the use of a switch input. If the switch is off, a user selects a previous employer for the job. Else, a new employer can be inputed and submitted
 
+###### Notes on DeleteJob.js
+
+- Job id gets passed from Records.js and sent to backend through url
+
 ### A Note on Design
 
-From a design point of view, the grid system, or flexbox, is used to precisely position everything
+From a design point of view, the grid system, or flexbox, is used to precisely position everything across the pages.
 
 <!-- Activate virtual environment
 -> source env/bin/activate
