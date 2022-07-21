@@ -11,6 +11,10 @@ const StyledContainer = styled(Container)`
   flex-grow: 1;
 `
 
+const TagLine = styled.h6`
+  letter-spacing: .46em;
+`
+
 export const Home = () => {
   return (
     <StyledContainer>
@@ -22,7 +26,7 @@ export const Home = () => {
         </Col>
         <Col xs={10} md={6} className="mt-4 mt-md-0 text-center d-flex flex-column justify-content-center">
           <h1>Lancer</h1>
-          <h6>For all your freelancing finance necessities!</h6>
+          <TagLine>Freelancing freely</TagLine>
         </Col>
       </Row>
     </StyledContainer>

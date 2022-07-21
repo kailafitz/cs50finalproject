@@ -29,15 +29,9 @@ export const Navigation = () => {
         setIsAuthorised(true);
       } else {
         setIsAuthorised(false);
-        if (window.location.href !== 'http://localhost:3000/login') {
-          window.location.href = 'http://localhost:3000/login';
-        }
       }
     }).catch(err => {
       setIsAuthorised(false);
-      if (window.location.href !== 'http://localhost:3000/login') {
-        window.location.href = 'http://localhost:3000/login';
-      }
       return err;
     });
   }, []);
