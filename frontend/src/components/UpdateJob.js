@@ -93,7 +93,6 @@ export const UpdateRecord = ({ id }) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log(e);
         const job_description = e.target[0].value;
         const gross_pay = e.target[1].value === '' ? 0.0 : e.target[1].value;
         const date = e.target[2].value;
