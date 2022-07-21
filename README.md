@@ -2,10 +2,10 @@
 
 #### Video Demo:
 
-### Description: This is a flask/react application that is aimed towards freelancer's to keep track of job records and invoices, and tax due on an annual basis. The tax calculation is loosely based off the current Irish tax system in place. The application comes with a clean interface achieved with Bootstrap, and features include the recording of jobs, the updating and deletion of jobs and a mini dashboard. Registration/ Login is required.
+### Description
+#### This is a flask/react application that is aimed towards freelancer's to keep track of job records and invoices, and tax due on an annual basis. The tax calculation is loosely based off the current Irish tax system in place. The application comes with a clean interface achieved with Bootstrap, and features include the recording of jobs, the updating and deletion of jobs and a mini dashboard. Registration/ Login is required.
 
 #### Backend Notes
-
 ##### I chose to write a flask application with a JWT login system and a sqlite3 database. Application entry is in the 'app.py' file where we have some configuration of the authorisation system and other configuration settings.
 
 ##### 'models.py' contains the models upon which the data is structured. The database models have relationships between each other so that only one UserAddress and one BankAccount is linked to any given user in the system (one-to-one relationships). In saying this, a User can have multiple Jobs (one-to-many). Furthermore, a Job can only have one Employer and a User can have many Employers in the system. Primary and foreign keys are used accordingly.
@@ -84,7 +84,7 @@
 
 ##### React is my chosen frontend javascript framework. The home page is minimalistic but features a wonderful Lottie animation that encapsulates all this application is and can be going forward. The navigation bar changes depending on whether or not a correct JWT is active. A custom hook is used to geth the JWT token. Axios is used to make calls to the endpoints. Data POST-ed is captured through event.targets and the corresponding input number. Frontend validation is carried out with React-Hook-Form and Yup which is very customisable.
 
-##### Notes on Register.js and Login.js
+###### Notes on Register.js and Login.js
 
 - Stepper used for ux, breaks up the form comprehensively
 - Data from inputs is captured from the Submit event
@@ -94,14 +94,14 @@
 - Redirect to Records page
 - If an error is received from the backend, an error message will be ready to capture that message for user feedback purposes
 
-##### Notes on Records.js
+###### Notes on Records.js
 
 - Records are displayed with a GET method
 - We get the JWT with our custom hook from the header of the call
 - UpdateJob.js is a component that can be called to update a Job record
 - DeleteJob.js is a component that can be called to delete a Job record
 
-##### Notes on UpdateJob.js
+###### Notes on UpdateJob.js
 
 - Job id gets passed from Records.js
 - Default values are set for form inputs from the response data
