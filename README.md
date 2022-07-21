@@ -4,7 +4,7 @@
 
 ### Description
 
-This is a flask/react application that is aimed towards freelancer's to keep track of job records and invoices, and tax due on an annual basis. The tax calculation is loosely based off the current Irish tax system in place. The application comes with a clean interface achieved with Bootstrap, and features include the recording of jobs, the updating and deletion of jobs and a mini dashboard. Registration/ Login is required.
+This is a mobile-friendly flask/react application that is aimed towards freelancer's to keep track of job records and invoices, and tax due on an annual basis. The tax calculation is loosely based off the current Irish tax system in place. The application comes with a clean interface achieved with Bootstrap, and features include the recording of jobs, the updating and deletion of jobs and a mini dashboard. Registration/ Login is required.
 
 ### Backend Notes
 
@@ -15,6 +15,8 @@ I chose to write a flask application with a JWT login system and a sqlite3 datab
 A variety of HTTP requests are featured in the 'routes.py' file in order to GET, POST, PUT and DELETE data between the frontend and the database. One of the first routes defined is the '/active' route which checks to see if the JWT is active. It is called upon at every route, taking, returning the appropriate response and status based on the JWT it reecives.
 
 Each of the POST methods take in the data as json and we assign a variable to each value from a key pair in the json package received. A check ensures that the necessary fields are not committed to the database as blanks, sending back user feedback to the frontend.
+
+The following notes on each route provide some insight and points of interest:
 
 ###### Notes on register() route function
 
@@ -84,7 +86,15 @@ Each of the POST methods take in the data as json and we assign a variable to ea
 
 ### Frontend Notes
 
-React is my chosen frontend javascript framework. The home page is minimalistic but features a wonderful Lottie animation that encapsulates all this application is and can be going forward. The navigation bar changes depending on whether or not a correct JWT is active. A custom hook is used to geth the JWT token. Axios is used to make calls to the endpoints. Data POST-ed is captured through event.targets and the corresponding input number. Frontend validation is carried out with React-Hook-Form and Yup which is very customisable.
+React is my chosen frontend javascript framework. The home page is minimalistic but features a wonderful Lottie animation that encapsulates all this application is and can be going forward.
+
+The navigation bar links change depending on whether or not a correct JWT is active. A custom hook is used to get and set the JWT. Axios is used to make calls to the endpoints. 
+
+Form data is captured through event.targets upon submission and the corresponding input number. Client-side validation is carried out with React-Hook-Form and Yup schemas which is very customisable.
+
+When setting data across the application in useEffects, hooks are used to create checks in order to render data when ready.
+
+The following notes on each page/component provide some insight and points of interest:
 
 ###### Notes on Register.js and Login.js
 
@@ -98,10 +108,16 @@ React is my chosen frontend javascript framework. The home page is minimalistic 
 
 ###### Notes on Records.js
 
-- Records are displayed with a GET method
+- Records are displayed with a GET method in a Bootstrap table
 - We get the JWT with our custom hook from the header of the call
 - UpdateJob.js is a component that can be called to update a Job record
 - DeleteJob.js is a component that can be called to delete a Job record
+- If no data exists, a Lottie animation is displayed with a link to add Job data
+
+###### Notes on Invoice.js
+
+- Data is pulled from all models into this component and displayed in such a way that can be exported a ready-to-send invoice in .pdf format.
+- Invoice column does not appear on screen sizes below the xl breakpoint as the layout is distorted and doesn't fit on one A4 page when exported
 
 ###### Notes on AddJob.js
 
@@ -111,21 +127,31 @@ React is my chosen frontend javascript framework. The home page is minimalistic 
 ###### Notes on UpdateJob.js
 
 - Job id gets passed from Records.js
+- Modals are used given how little data is needed for the update
 - Default values are set for form inputs from the response data
 - Employer can be updated for the Job and is done in the same fashion as in AddJob.js
+- Cancel button resets the default values and clears any errors
+- Yup schemas for client-side is in place
+- Submit button triggers the submit event. If successful, data is set to a hook variable and error messages are cleared
 
 ###### Notes on DeleteJob.js
 
 - Job id gets passed from Records.js and sent to backend through url
 
+###### Notes on Dashboard.js
+
+- Very minimal dashboard which displays annual data
+- A dropdown select menu to filter for data from different years, if the data exists
+- If no data exists, a Lottie animation is displayed with a link to add Job data
+
 ###### Notes on Settings.js
 
 - UpdateBankAccountDetails.js and UpdatePersonalDetails.js feature on this page which are components that send PUT http requests to backend in order to update bank account and personal details
-- Modals were used
+- Very similar setup to the UpdateJob.js
 
-### A Note on Design
+### A Note on Style & Design
 
-From a design point of view, the grid system, or flexbox, is used to precisely position everything across the pages.
+From a design point of view, the Bootstrap grid system, or flexbox, is used to precisely position everything across the pages. Colours are subtle and soft so as not to distract from the data and numbers. The look and feel is minimalistic, white space is favoured. That being said, Lottie animations bring something pleasing to the page where they appear and serve a purpose.
 
 ### Instructions to Start
 
