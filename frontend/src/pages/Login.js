@@ -36,8 +36,6 @@ export const Login = () => {
         })
     }
 
-    console.log(errors);
-
     return (
         <Container className="d-flex flex-column justify-content-center flex-grow-1">
             <Row className="justify-content-center">

@@ -14,7 +14,9 @@ I chose to write a flask application with a JWT login system and a sqlite3 datab
 
 A variety of HTTP requests are featured in the 'routes.py' file in order to GET, POST, PUT and DELETE data between the frontend and the database. One of the first routes defined is the '/active' route which checks to see if the JWT is active. It is called upon at every route, taking, returning the appropriate response and status based on the JWT it reecives.
 
-Each of the POST methods take in the data as json and we assign a variable to each value from a key pair in the json package received. A check ensures that the necessary fields are not committed to the database as blanks, sending back user feedback to the frontend.
+'schema.py' is a file that is useful for serialising the model objects for sending to the frontend.
+
+Each of the POST methods take in the data as json front frontend and we assign a variable to each value from a key pair in the json package received. A check ensures that the necessary fields are not committed to the database as blanks, sending back user feedback to the frontend.
 
 The following notes on each route provide some insight and points of interest:
 
@@ -88,7 +90,7 @@ The following notes on each route provide some insight and points of interest:
 
 React is my chosen frontend javascript framework. The home page is minimalistic but features a wonderful Lottie animation that encapsulates all this application is and can be going forward.
 
-The navigation bar links change depending on whether or not a correct JWT is active. A custom hook is used to get and set the JWT. Axios is used to make calls to the endpoints. 
+The navigation bar links change depending on whether or not a correct JWT is active. A custom hook is used to get and set the JWT. Axios is used to make calls to the endpoints.
 
 Form data is captured through event.targets upon submission and the corresponding input number. Client-side validation is carried out with React-Hook-Form and Yup schemas which is very customisable.
 
