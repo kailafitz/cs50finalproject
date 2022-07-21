@@ -65,7 +65,7 @@ export const AddJob = () => {
 
   useEffect(() => {
     if (Object.keys(data).length <= 0) {
-      axios.get("add-job-info", {
+      axios.get("add-job", {
         headers: {
           Authorization: 'Bearer ' + token
         }
@@ -113,7 +113,7 @@ export const AddJob = () => {
       }
     }
 
-    axios.post("http://localhost:5000/add-job-info", { "job_description": job_description, "gross_pay": gross_pay, "employer_name": employer_name, "employer_line_1": employer_line_1, "employer_line_2": employer_line_2, "employer_town": employer_town, "employer_region": employer_region, "employer_country": employer_country }, {
+    axios.post("http://localhost:5000/add-job", { "job_description": job_description, "gross_pay": gross_pay, "employer_name": employer_name, "employer_line_1": employer_line_1, "employer_line_2": employer_line_2, "employer_town": employer_town, "employer_region": employer_region, "employer_country": employer_country }, {
       headers: {
         Authorization: 'Bearer ' + token,
         "Access-Control-Allow-Origin": "*"

@@ -234,10 +234,10 @@ def updatePersonalDetails():
     return jsonify(serialised_details)
 
 
-@app.route('/add-job-info', methods=['GET', 'POST'])
+@app.route('/add-job', methods=['GET', 'POST'])
 @cross_origin(methods=['POST'], headers=['Content-Type', 'Authorization'], origin='http://127.0.0.1:3000')
 @jwt_required()
-def addJobInfo():
+def addJob():
     username_of_logged_in_user = get_jwt_identity()
     user = User.query.filter_by(
         username=username_of_logged_in_user).first()
@@ -396,7 +396,7 @@ def delete_job(id):
 
 @app.route('/records/<int:id>')
 @jwt_required()
-def records_by_id(id):
+def invoice(id):
     username_of_logged_in_user = get_jwt_identity()
     user = User.query.filter_by(username=username_of_logged_in_user).first()
 
