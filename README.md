@@ -4,17 +4,17 @@
 
 ### Description
 
-##### This is a flask/react application that is aimed towards freelancer's to keep track of job records and invoices, and tax due on an annual basis. The tax calculation is loosely based off the current Irish tax system in place. The application comes with a clean interface achieved with Bootstrap, and features include the recording of jobs, the updating and deletion of jobs and a mini dashboard. Registration/ Login is required.
+This is a flask/react application that is aimed towards freelancer's to keep track of job records and invoices, and tax due on an annual basis. The tax calculation is loosely based off the current Irish tax system in place. The application comes with a clean interface achieved with Bootstrap, and features include the recording of jobs, the updating and deletion of jobs and a mini dashboard. Registration/ Login is required.
 
 ### Backend Notes
 
-##### I chose to write a flask application with a JWT login system and a sqlite3 database. Application entry is in the 'app.py' file where we have some configuration of the authorisation system and other configuration settings.
+I chose to write a flask application with a JWT login system and a sqlite3 database. Application entry is in the 'app.py' file where we have some configuration of the authorisation system and other configuration settings.
 
-##### 'models.py' contains the models upon which the data is structured. The database models have relationships between each other so that only one UserAddress and one BankAccount is linked to any given user in the system (one-to-one relationships). In saying this, a User can have multiple Jobs (one-to-many). Furthermore, a Job can only have one Employer and a User can have many Employers in the system. Primary and foreign keys are used accordingly.
+'models.py' contains the models upon which the data is structured. The database models have relationships between each other so that only one UserAddress and one BankAccount is linked to any given user in the system (one-to-one relationships). In saying this, a User can have multiple Jobs (one-to-many). Furthermore, a Job can only have one Employer and a User can have many Employers in the system. Primary and foreign keys are used accordingly.
 
-##### A variety of HTTP requests are featured in the 'routes.py' file in order to GET, POST, PUT and DELETE data between the frontend and the database. One of the first routes defined is the '/active' route which checks to see if the JWT is active. It is called upon at every route, taking, returning the appropriate response and status based on the JWT it reecives.
+A variety of HTTP requests are featured in the 'routes.py' file in order to GET, POST, PUT and DELETE data between the frontend and the database. One of the first routes defined is the '/active' route which checks to see if the JWT is active. It is called upon at every route, taking, returning the appropriate response and status based on the JWT it reecives.
 
-##### Each of the POST methods take in the data as json and we assign a variable to each value from a key pair in the json package received. A check ensures that the necessary fields are not committed to the database as blanks, sending back user feedback to the frontend.
+Each of the POST methods take in the data as json and we assign a variable to each value from a key pair in the json package received. A check ensures that the necessary fields are not committed to the database as blanks, sending back user feedback to the frontend.
 
 ###### Notes on register() route function
 
@@ -84,7 +84,7 @@
 
 ### Frontend Notes
 
-##### React is my chosen frontend javascript framework. The home page is minimalistic but features a wonderful Lottie animation that encapsulates all this application is and can be going forward. The navigation bar changes depending on whether or not a correct JWT is active. A custom hook is used to geth the JWT token. Axios is used to make calls to the endpoints. Data POST-ed is captured through event.targets and the corresponding input number. Frontend validation is carried out with React-Hook-Form and Yup which is very customisable.
+React is my chosen frontend javascript framework. The home page is minimalistic but features a wonderful Lottie animation that encapsulates all this application is and can be going forward. The navigation bar changes depending on whether or not a correct JWT is active. A custom hook is used to geth the JWT token. Axios is used to make calls to the endpoints. Data POST-ed is captured through event.targets and the corresponding input number. Frontend validation is carried out with React-Hook-Form and Yup which is very customisable.
 
 ###### Notes on Register.js and Login.js
 
@@ -106,32 +106,42 @@
 ###### Notes on AddJob.js
 
 - List of Employer objects associated with user are received
-- There is a chance to select an employer from this list or add a new employer with the use of a switch input. If the switch is off, a user selects a previous employer for the job. Else, a new employer can be inputed and submitted
+- There is a chance to select an employer from this list or add a new employer with the use of a switch input. If the switch is off, a user selects a previous employer for the job. Else, a new employer can be inputed and submitted. When the Select input is used, the employer name is used to fill the other Employer fields by performing a loop
 
 ###### Notes on UpdateJob.js
 
 - Job id gets passed from Records.js
 - Default values are set for form inputs from the response data
-- List of Employer objects associated with user are also received
-- There is a chance to select an employer from this list or add a new employer with the use of a switch input. If the switch is off, a user selects a previous employer for the job. Else, a new employer can be inputed and submitted
+- Employer can be updated for the Job and is done in the same fashion as in AddJob.js
 
 ###### Notes on DeleteJob.js
 
 - Job id gets passed from Records.js and sent to backend through url
 
+###### Notes on Settings.js
+
+- UpdateBankAccountDetails.js and UpdatePersonalDetails.js feature on this page which are components that send PUT http requests to backend in order to update bank account and personal details
+- Modals were used
+
 ### A Note on Design
 
 From a design point of view, the grid system, or flexbox, is used to precisely position everything across the pages.
 
-<!-- Activate virtual environment
--> source env/bin/activate
+### Instructions to Start
 
-Install requirements.txt and package.json respectively
--> pip istall -r requirements.txt
--> npm install
+##### Activate virtual environment
 
-Activate backend
--> python3 app.py
+% source env/bin/activate
 
-Activate frontend
--> npm start -->
+##### Install requirements.txt and package.json respectively
+
+% pip istall -r requirements.txt
+% npm install
+
+##### Activate backend
+
+% python3 app.py
+
+##### Activate frontend
+
+% npm start
