@@ -11,12 +11,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import cross_origin
 from datetime import datetime, timedelta, timezone
 from dateutil.parser import *
-import smtplib
-
-# server = smtplib.SMTP('smtp.gmail.com', 587)
-# server.starttls()
-# server.login('kailaanakin@gmail.com', '@F1$$ydesignsMF')
-# server.sendmail('kailaanakin@gmail.com', 'mikhailafitzpatrick@yahoo.com', 'This is sent from Lancer')
 
 jobs_schema = JobSchema(many=True)
 job_schema = JobSchema()
@@ -117,27 +111,6 @@ def login():
         return {'message': 'User does not exist'}, 401
     else:
         if check_password_hash(user.password, password):
-            # fun-fact: 'from' is a keyword in python, you can't use it as variable.. did anyone check if this code even works?
-            # fromMy = 'mikhailafitzpatrick@yahoo.com'
-            # to = 'kailaanakin@gmail.com'
-            # subj = 'TheSubject'
-            # message_text = 'Hello Or any thing you want to send'
-
-            # msg = 'From: %s\nTo: %s\nSubject: %s\n\n%s' % (
-            #     fromMy, to, subj, message_text)
-
-            # username = str('mikhailafitzpatrick@yahoo.com')
-            # password = str('TPOFmniscmr3')
-
-            # try:
-            #     server = smtplib.SMTP('smtp.mail.yahoo.com', 587)
-            #     server.login(username, password)
-            #     server.sendmail(fromMy, to, msg)
-            #     server.quit()
-            #     print('ok the email has sent')
-            # except:
-            #     print('can\'t send the Email')
-
             access_token = create_access_token(identity=username)
             response = {'access_token': access_token, 'message': 'Success'}
             return response, 200

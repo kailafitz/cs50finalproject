@@ -23,24 +23,6 @@ export const Login = () => {
     });
 
     const onSubmit = (e) => {
-        // try {
-        //     e.preventDefault();
-        //     const username = e.target[0].value;
-        //     const password = e.target[1].value;
-        //     let response = await axios({
-        //         method: 'post',
-        //         url: 'http://localhost:5000/login',
-        //         data: { "username": username, "password": password },
-        //     })
-
-        //     setToken(response.data.access_token)
-        //     window.location.href = 'http://localhost:3000/'
-        // }
-        // catch (e) {
-        //     let string = '';
-        //     string = e.response.data.message;
-        //     setErrorMessage(string);
-        // }
         e.preventDefault();
         const username = e.target[0].value;
         const password = e.target[1].value;

@@ -94,9 +94,9 @@ export const Register = () => {
         <Row className="justify-content-center mb-2">
           <Col xs={12}>
             <Stepper activeStep={step} styleConfig={StepStyleDTO} connectorStyleConfig={ConnectorStyleProps}>
-              <Step label="Step 1" />
-              <Step label="Step 2" />
-              <Step label="Step 3" />
+              <Step label="Sign up" />
+              <Step label="Bank Account" />
+              <Step label="Address" />
             </Stepper>
           </Col>
         </Row>

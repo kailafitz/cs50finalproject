@@ -29,11 +29,15 @@ export const Navigation = () => {
         setIsAuthorised(true);
       } else {
         setIsAuthorised(false);
-        window.location.href = 'http://localhost:3000/login';
+        if (window.location.href !== 'http://localhost:3000/login') {
+          window.location.href = 'http://localhost:3000/login';
+        }
       }
     }).catch(err => {
       setIsAuthorised(false);
-      // window.location.href = 'http://localhost:3000/login';
+      if (window.location.href !== 'http://localhost:3000/login') {
+        window.location.href = 'http://localhost:3000/login';
+      }
       return err;
     });
   }, []);

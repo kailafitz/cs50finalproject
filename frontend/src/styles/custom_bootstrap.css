@@ -9725,6 +9725,16 @@ abbr, abbr[title], abbr[data-bs-original-title] {
   visibility: hidden;
 }
 
+.react-calendar__tile--active:enabled:hover, .react-calendar__tile--active:enabled:focus {
+  opacity: .7;
+  background: #8DB5B3;
+}
+
+.react-calendar__tile--now:enabled:hover, .react-calendar__tile--now:enabled:focus {
+  opacity: .7;
+  background: #90baca;
+}
+
 body {
   -webkit-tap-highlight-color: #90baca;
 }

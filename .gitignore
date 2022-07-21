@@ -116,4 +116,4 @@ __pycache__/
 *.sqlite3
 
 *.scss
-*.map.css
+*.css.map

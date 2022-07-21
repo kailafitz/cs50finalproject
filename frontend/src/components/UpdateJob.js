@@ -68,7 +68,7 @@ export const UpdateRecord = ({ id }) => {
     const [employerCheck, setEmployerCheck] = useState(false);
     const [dateTouched, setDateTouched] = useState(false);
 
-    const { register, handleSubmit, control, clearErrors, setValue, formState: { errors } } = useForm({
+    const { register, handleSubmit, control, clearErrors, watch, setValue, formState: { errors } } = useForm({
         mode: 'onBlur',
         reValidateMode: 'onSubmit',
         resolver: yupResolver(editJobSchema)
@@ -92,13 +92,8 @@ export const UpdateRecord = ({ id }) => {
         }
     }, [data])
 
-    const handleDate = (isTouched) => {
-        if (isTouched === true) {
-            setDateTouched(true);
-        }
-        else {
-            setDateTouched(false);
-        }
+    const handleOpen = () => {
+        setDateTouched(true);
     }
 
     const onSubmit = (e) => {
@@ -133,9 +128,11 @@ export const UpdateRecord = ({ id }) => {
         }
         else {
             if (dateTouched === true) {
+                console.log("48");
                 employer_name = e.target[48].value;
             }
             else {
+                console.log("8");
                 employer_name = e.target[8].value;
             }
 
@@ -213,9 +210,8 @@ export const UpdateRecord = ({ id }) => {
                                     defaultValue={new Date(data[0].date_created)}
                                     render={({
                                         field: { onChange, onBlur, value },
-                                        fieldState: { isTouched },
                                     }) => (
-                                        <DatePicker onChange={onChange} onCalendarOpen={() => handleDate(isTouched)} value={value} onBlur={onBlur} calendarIcon={<BsCalendar3 />} className="d-block form-control" />
+                                        <DatePicker onChange={onChange} onCalendarOpen={() => handleOpen()} value={value} onBlur={onBlur} calendarIcon={<BsCalendar3 />} className="d-block form-control" />
                                     )}
                                 />
                             </Form.Group>

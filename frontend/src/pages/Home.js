@@ -20,9 +20,9 @@ export const Home = () => {
             <Lottie animationData={System} loop={true} />
           </div>
         </Col>
-        <Col xs={12} md={6} className="mb-4 text-center d-flex flex-column justify-content-center">
+        <Col xs={10} md={6} className="mt-4 mt-md-0 text-center d-flex flex-column justify-content-center">
           <h1>Lancer</h1>
-          <h6>Home for all your freelancing finances</h6>
+          <h6>For all your freelancing finance necessities!</h6>
         </Col>
       </Row>
     </StyledContainer>
