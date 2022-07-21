@@ -1,11 +1,13 @@
 # LANCER
 
-#### Video Demo:
+##### Video Demo:
 
 ### Description
-#### This is a flask/react application that is aimed towards freelancer's to keep track of job records and invoices, and tax due on an annual basis. The tax calculation is loosely based off the current Irish tax system in place. The application comes with a clean interface achieved with Bootstrap, and features include the recording of jobs, the updating and deletion of jobs and a mini dashboard. Registration/ Login is required.
 
-#### Backend Notes
+##### This is a flask/react application that is aimed towards freelancer's to keep track of job records and invoices, and tax due on an annual basis. The tax calculation is loosely based off the current Irish tax system in place. The application comes with a clean interface achieved with Bootstrap, and features include the recording of jobs, the updating and deletion of jobs and a mini dashboard. Registration/ Login is required.
+
+### Backend Notes
+
 ##### I chose to write a flask application with a JWT login system and a sqlite3 database. Application entry is in the 'app.py' file where we have some configuration of the authorisation system and other configuration settings.
 
 ##### 'models.py' contains the models upon which the data is structured. The database models have relationships between each other so that only one UserAddress and one BankAccount is linked to any given user in the system (one-to-one relationships). In saying this, a User can have multiple Jobs (one-to-many). Furthermore, a Job can only have one Employer and a User can have many Employers in the system. Primary and foreign keys are used accordingly.
@@ -80,7 +82,7 @@
 
 - Unset the JWT
 
-#### Frontend Notes
+### Frontend Notes
 
 ##### React is my chosen frontend javascript framework. The home page is minimalistic but features a wonderful Lottie animation that encapsulates all this application is and can be going forward. The navigation bar changes depending on whether or not a correct JWT is active. A custom hook is used to geth the JWT token. Axios is used to make calls to the endpoints. Data POST-ed is captured through event.targets and the corresponding input number. Frontend validation is carried out with React-Hook-Form and Yup which is very customisable.
 
@@ -108,7 +110,7 @@
 - List of Employer objects associated with user are also received
 - There is a chance to select an employer from this list or add a new employer with the use of a switch input. If the switch is off, a user selects a previous employer for the job. Else, a new employer can be inputed and submitted
 
-#### A Note of Design
+### A Note on Design
 
 From a design point of view, the grid system, or flexbox, is used to precisely position everything
 
