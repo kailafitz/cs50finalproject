@@ -12,7 +12,7 @@ I chose to write a flask application with a JWT login system and a sqlite3 datab
 
 - 'models.py' contains the models upon which the data is structured. The database models have relationships between each other so that only one UserAddress and one BankAccount is linked to any given user in the system (one-to-one relationships). In saying this, a User can have multiple Jobs (one-to-many). Furthermore, a Job can only have one Employer (many-to-one) and a User can have many Employers in the system (one-to-many). Primary and foreign keys are used to link the relevant models, the user's email address often being the foreign key for the associated BankAccount, UserAddress and Employer, for example.
 
-- A variety of HTTP requests are featured in the 'routes.py' file in order to GET, POST, PUT and DELETE data between the frontend and the database. One of the first routes defined is the '/active' route which checks to see if the JWT is active.
+- A variety of HTTP requests are featured in the 'routes.py' file in order to GET, POST, PUT and DELETE data between the frontend and the database. Many routes have decorators so as to restrict access and to allow for certain http requests to be made, (cors). One of the first routes defined is the '/active' route which checks to see if the JWT is active.
 
 - 'schema.py' is a file that is useful for serialising the model objects for sending to the frontend.
 
@@ -80,53 +80,54 @@ The following notes on each route provide some insight and points of interest:
 
 ### Frontend Notes
 
-React is my chosen frontend javascript framework. The home page is minimalistic but features a wonderful Lottie animation that encapsulates all this application is and can be going forward.
+React is my chosen frontend javascript framework. The home page is minimalistic but sets the tone with a Lottie animation that encapsulates all that this application is and can be going forward.
 
-The navigation bar links change depending on whether or not a correct JWT is active. A custom hook is used to get and set the JWT. Axios is used to make calls to the endpoints.
+The navigation bar links change depending on whether or not a correct JWT is active. A custom hook is used to get and set the JWT, useToken(). Axios is used to make calls to the endpoints.
 
 Form data is captured through event.targets upon submission and the corresponding input number. Client-side validation is carried out with React-Hook-Form and Yup schemas which is very customisable.
 
 When setting data across the application in useEffects, hooks are used to create checks in order to render data when ready.
+
+#### Some key patterns seen across the React elements:
+
+- We get the JWT with our custom hook from the header of the call
+- Data from inputs is captured from the Submit event
+- Data is always POST-ed as json key value pairs
+- Client-side validation is triggered on the input's onBlur event
+- If an error is received from the backend, an error message will be ready to capture that message for user feedback purposes
 
 The following notes on each page/component provide some insight and points of interest:
 
 ###### Notes on Register.js and Login.js
 
 - Stepper used for ux, breaks up the form comprehensively
-- Data from inputs is captured from the Submit event
-- Client-side validation is triggered on the input's onBlur event
-- If criteria is met, the data is posted as json key value pairs
-  If successful, we take the access token from the response and use our custom hook to set it
-- Redirect to Records page
-- If an error is received from the backend, an error message will be ready to capture that message for user feedback purposes
+- If response is 200, we take the access token from the response and use our custom hook to set it
+- Redirect to Records page upon successful registration
 
 ###### Notes on Records.js
 
 - Records are displayed with a GET method in a Bootstrap table
-- We get the JWT with our custom hook from the header of the call
 - UpdateJob.js is a component that can be called to update a Job record
 - DeleteJob.js is a component that can be called to delete a Job record
 - If no data exists, a Lottie animation is displayed with a link to add Job data
+- Invoice column is hidden on smaller screen devices. This is due to in-accurate scaling of the webpage to .pdf on such screens for now
 
 ###### Notes on Invoice.js
 
-- Data is pulled from all models into this component and displayed in such a way that can be exported a ready-to-send invoice in .pdf format.
-- Invoice column does not appear on screen sizes below the xl breakpoint as the layout is distorted and doesn't fit on one A4 page when exported
+- Data is pulled from all models into this component and displayed in such a way that can be exported as a ready-to-send invoice in .pdf format
+- Invoice does not appear on screen sizes below the xl breakpoint as the layout is distorted and doesn't fit on one A4 page when exported
 
 ###### Notes on AddJob.js
 
 - List of Employer objects associated with user are received
-- There is a chance to select an employer from this list or add a new employer with the use of a switch input. If the switch is off, a user selects a previous employer for the job. Else, a new employer can be inputed and submitted. When the Select input is used, the employer name is used to fill the other Employer fields by performing a loop
+- There is a chance to select an employer from this list or add a new employer with the use of a switch input. If the switch is off, a user selects a known employer for the job. Else, a new employer can be inputed and submitted. When the Select input is used, the employer name is used to fill the other Employer fields by performing a loop
 
 ###### Notes on UpdateJob.js
 
-- Job id gets passed from Records.js
 - Modals are used given how little data is needed for the update
-- Default values are set for form inputs from the response data
+- Default values from GET data are set for form inputs
 - Employer can be updated for the Job and is done in the same fashion as in AddJob.js
 - Cancel button resets the default values and clears any errors
-- Yup schemas for client-side is in place
-- Submit button triggers the submit event. If successful, data is set to a hook variable and error messages are cleared
 
 ###### Notes on DeleteJob.js
 
@@ -141,7 +142,6 @@ The following notes on each page/component provide some insight and points of in
 ###### Notes on Settings.js
 
 - UpdateBankAccountDetails.js and UpdatePersonalDetails.js feature on this page which are components that send PUT http requests to backend in order to update bank account and personal details
-- Very similar setup to the UpdateJob.js
 
 ### A Note on Style & Design
 
@@ -156,6 +156,7 @@ From a design point of view, the Bootstrap grid system, or flexbox, is used to p
 ##### Install requirements.txt and package.json respectively
 
 % pip install -r requirements.txt
+
 % npm install
 
 ##### Activate backend
