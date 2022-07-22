@@ -181,7 +181,7 @@ export const Register = () => {
               errorMessage ?
                 <ErrorMessage message={errorMessage} /> : null}
             <Row className="justify-content-between">
-              <Col xs={5} lg={3}><Button variant="outline-primary" onClick={() => setStep(step - 1)} disabled={step === 0 ? true : false}>Previous</Button>
+              <Col xs={5} lg={3}><Button variant="outline-primary" onClick={() => { setStep(step - 1); setAgreement(false); }} disabled={step === 0 ? true : false}>Previous</Button>
               </Col>
               {step !== 2 ?
                 <Col xs={5} lg={3} className="d-flex justify-content-end">
@@ -194,7 +194,7 @@ export const Register = () => {
             </Row>
           </Col>
         </Row>
-      </form>
+      </form >
     </StyledContainer >
   )
 }

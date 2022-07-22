@@ -8,23 +8,28 @@ This is a mobile-friendly flask/react application that is aimed towards freelanc
 
 ### Backend Notes
 
-I chose to write a flask application with a JWT login system and a sqlite3 database. Application entry is in the 'app.py' file where we have some configuration of the authorisation system and other configuration settings.
+I chose to write a flask application with a JWT login system and a sqlite3 database. Application entry is in the 'app.py' file where we have some configuration of the authorisation system and other configuration settings. A run through of the files are as follows:
 
-'models.py' contains the models upon which the data is structured. The database models have relationships between each other so that only one UserAddress and one BankAccount is linked to any given user in the system (one-to-one relationships). In saying this, a User can have multiple Jobs (one-to-many). Furthermore, a Job can only have one Employer and a User can have many Employers in the system. Primary and foreign keys are used accordingly.
+- 'models.py' contains the models upon which the data is structured. The database models have relationships between each other so that only one UserAddress and one BankAccount is linked to any given user in the system (one-to-one relationships). In saying this, a User can have multiple Jobs (one-to-many). Furthermore, a Job can only have one Employer (many-to-one) and a User can have many Employers in the system (one-to-many). Primary and foreign keys are used to link the relevant models, the user's email address often being the foreign key for the associated BankAccount, UserAddress and Employer, for example.
 
-A variety of HTTP requests are featured in the 'routes.py' file in order to GET, POST, PUT and DELETE data between the frontend and the database. One of the first routes defined is the '/active' route which checks to see if the JWT is active. It is called upon at every route, taking, returning the appropriate response and status based on the JWT it reecives.
+- A variety of HTTP requests are featured in the 'routes.py' file in order to GET, POST, PUT and DELETE data between the frontend and the database. One of the first routes defined is the '/active' route which checks to see if the JWT is active.
 
-'schema.py' is a file that is useful for serialising the model objects for sending to the frontend.
+- 'schema.py' is a file that is useful for serialising the model objects for sending to the frontend.
 
-Each of the POST methods take in the data as json front frontend and we assign a variable to each value from a key pair in the json package received. A check ensures that the necessary fields are not committed to the database as blanks, sending back user feedback to the frontend.
+#### Some key patterns seen across the routes:
+
+- Current user is checked through acquisition of an active JWT, if it exists
+- POST methods receive JSON from frontend
+- A variable is assigned to each data value from a key value pair in the JSON
+- The data variables are checked server-side for any empty values
+- Marshmallow schemas are used to return serialised data models
 
 The following notes on each route provide some insight and points of interest:
 
 ###### Notes on register() route function
 
-- Check if username exists in database
-- The posted data on user, address and bank account is commited to the relevant tables in the database
-- A check is in place for password matching before submission
+- Data regarding user sign up details, bank account and user address are taken in and saved to the relevant tables in database
+- A check is in place for password matching before registering and submission
 - The passwords are saved as hash values in the backend for security purposes
 - A token is created for the user session
 
@@ -35,33 +40,23 @@ The following notes on each route provide some insight and points of interest:
 
 ###### Notes on dashboard() route function
 
-- Current active user is gotten from active JWT
 - Gross, tax and net values are summed up based on the year value submitted from the frontend
-- Marshmallow schemas are used to neatly serialise database objects
-- Current year data is returned, along with an array of all unique year values found in job records from the 'date_created' column
-
-###### Notes on updateBankAccount() route function
-
-- Current active user is gotten from active JWT
-- Find user and associated bank account
-- Takes data and updates values in database
-
-###### Notes on updatePersonalDetails() route function
-
-- Current active user is gotten from active JWT
-- Find user in database
-- Takes data and updates values in database
-
-###### Notes on addJob() route function
-
-- Current active user is gotten from active JWT
-- Takes data as json, make some calculations and adds data to database
-- List of employers are
+- Current year data is returned from GET, along with an array of all unique year values found in job records from the 'date_created' column
 
 ###### Notes on records() route function
 
-- Current active user is gotten from active JWT
-- Return all jobs associated with the user with schema
+- Return all jobs associated with the logged-in user
+
+###### Notes on addJob() route function
+
+- Once current active user is distinguished from JWT, the username is used to query for the User in database
+- Tax calculations are carried out on some of the data variables
+- Upon the GET request, a list of Employer objects is returned
+
+###### Notes on updateBankAccount()/ updatePersonalDetails() route functions
+
+- User's email used to get associated BankAccount and UserAddress data
+- Upon the GET request, default values are loaded into the form
 
 ###### Notes on edit_record(id) route function
 
@@ -72,15 +67,12 @@ The following notes on each route provide some insight and points of interest:
 
 ###### Notes on delete_job(id) route function
 
-- Current active user is gotten from active JWT
-- An id is taken as argument and used to query the Job in question
-- Record is deleted from database
+- Record is deleted from database using the id passed from url
 
 ###### Notes on invoice(id) route function
 
-- Current active user is gotten from active JWT
-- An id is taken as argument and used to query the Job in question and associated BankAccount, UserAddress and Employer
-- Return the database objects in dictionary
+- An id is used to query the Job in question and associated BankAccount, UserAddress and Employer
+- Return the serialised models a in dictionary
 
 ###### Notes on logout() route function
 
@@ -163,7 +155,7 @@ From a design point of view, the Bootstrap grid system, or flexbox, is used to p
 
 ##### Install requirements.txt and package.json respectively
 
-% pip istall -r requirements.txt
+% pip install -r requirements.txt
 % npm install
 
 ##### Activate backend
