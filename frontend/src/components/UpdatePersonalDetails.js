@@ -27,9 +27,10 @@ export const UpdatePersonalDetails = () => {
 
     useEffect(() => {
         if (Object.keys(data).length <= 0) {
-            axios.get("personal-details", {
+            axios.get("http://localhost:5000/personal-details", {
                 headers: {
-                    Authorization: 'Bearer ' + token
+                    Authorization: 'Bearer ' + token,
+                    "Access-Control-Allow-Origin": "*"
                 }
             }).then((response) => {
                 setData(response.data);

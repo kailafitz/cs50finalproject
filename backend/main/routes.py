@@ -119,7 +119,7 @@ def login():
 
 
 @app.route('/dashboard', methods=['GET', 'POST'])
-@cross_origin(methods=['POST'], headers=['Content-Type', 'Authorization'], origin='http://127.0.0.1:3000')
+@cross_origin(methods=['POST', 'GET'], headers=['Content-Type', 'Authorization'], origin='http://127.0.0.1:3000')
 @jwt_required()
 def dashboard():
     username_of_logged_in_user = get_jwt_identity()
@@ -179,7 +179,7 @@ def dashboard():
 
 
 @app.route('/bank-details', methods=['GET', 'PUT'])
-@cross_origin(methods=['PUT'], headers=['Content-Type', 'Authorization'], origin='http://127.0.0.1:3000')
+@cross_origin(methods=['PUT', 'GET'], headers=['Content-Type', 'Authorization'], origin='http://127.0.0.1:3000')
 @jwt_required()
 def updateBankAccount():
     username_of_logged_in_user = get_jwt_identity()
@@ -210,7 +210,7 @@ def updateBankAccount():
 
 
 @app.route('/personal-details', methods=['GET', 'PUT'])
-@cross_origin(methods=['PUT'], headers=['Content-Type', 'Authorization'], origin='http://127.0.0.1:3000')
+@cross_origin(methods=['PUT', 'GET'], headers=['Content-Type', 'Authorization'], origin='http://127.0.0.1:3000')
 @jwt_required()
 def updatePersonalDetails():
     username_of_logged_in_user = get_jwt_identity()
@@ -235,7 +235,7 @@ def updatePersonalDetails():
 
 
 @app.route('/add-job', methods=['GET', 'POST'])
-@cross_origin(methods=['POST'], headers=['Content-Type', 'Authorization'], origin='http://127.0.0.1:3000')
+@cross_origin(methods=['GET', 'POST'], headers=['Content-Type', 'Authorization'], origin='http://127.0.0.1:3000')
 @jwt_required()
 def addJob():
     username_of_logged_in_user = get_jwt_identity()
@@ -295,7 +295,8 @@ def addJob():
             return {'message': 'No employers found'}, 200
 
 
-@app.route('/records')
+@app.route('/records', methods=['GET'])
+@cross_origin(methods=['GET'], headers=['Content-Type', 'Authorization'], origin='http://127.0.0.1:3000')
 @jwt_required()
 def records():
     username_of_logged_in_user = get_jwt_identity()
@@ -310,13 +311,14 @@ def records():
 
 
 @app.route('/records/edit/<int:id>', methods=['GET', 'PUT'])
-@cross_origin(methods=['PUT'], headers=['Content-Type', 'Authorization'], origin='http://127.0.0.1:3000')
+@cross_origin(methods=['PUT', 'GET'], headers=['Content-Type', 'Authorization'], origin='http://127.0.0.1:3000')
 @jwt_required()
 def edit_record(id):
     username_of_logged_in_user = get_jwt_identity()
     user = User.query.filter_by(username=username_of_logged_in_user).first()
     if request.method == 'PUT':
         data = request.get_json()
+        print(data)
         job_description = data['job_description']
         gross_pay = float(data['gross_pay'])
         date = parser().parse(data['date_created'])

@@ -34,9 +34,10 @@ export const Invoice = () => {
 
     useEffect(() => {
         if (Object.keys(data).length <= 0) {
-            axios.get(`/records/${id}`, {
+            axios.get(`http://localhost:5000/records/${id}`, {
                 headers: {
-                    Authorization: 'Bearer ' + token
+                    Authorization: 'Bearer ' + token,
+                    "Access-Control-Allow-Origin": "*"
                 }
             }).then((response) => {
                 setData(response.data);

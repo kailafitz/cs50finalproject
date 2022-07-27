@@ -28,9 +28,10 @@ export const UpdateBankAccountDetails = () => {
 
     useEffect(() => {
         if (Object.keys(data).length <= 0) {
-            axios.get("bank-details", {
+            axios.get("http://localhost:5000/bank-details", {
                 headers: {
-                    Authorization: 'Bearer ' + token
+                    Authorization: 'Bearer ' + token,
+                    "Access-Control-Allow-Origin": "*"
                 }
             }).then((response) => {
                 setData(response.data);

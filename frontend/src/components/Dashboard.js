@@ -41,9 +41,10 @@ export const Dashboard = () => {
 
     useEffect(() => {
         if (Object.keys(data).length <= 0) {
-            axios.get("/dashboard", {
+            axios.get("http://localhost:5000/dashboard", {
                 headers: {
-                    Authorization: 'Bearer ' + token
+                    Authorization: 'Bearer ' + token,
+                    "Access-Control-Allow-Origin": "*"
                 }
             }).then((response) => {
                 setData(response.data);

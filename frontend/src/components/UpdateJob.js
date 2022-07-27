@@ -75,9 +75,10 @@ export const UpdateRecord = ({ id }) => {
 
     useEffect(() => {
         if (Object.keys(data).length <= 0) {
-            axios.get(`/records/edit/${id}`, {
+            axios.get(`http://localhost:5000/records/edit/${id}`, {
                 headers: {
-                    Authorization: 'Bearer ' + token
+                    Authorization: 'Bearer ' + token,
+                    "Access-Control-Allow-Origin": "*"
                 }
             }).then((response) => {
                 setData(response.data);
@@ -111,7 +112,7 @@ export const UpdateRecord = ({ id }) => {
             employer_region = watch('employerRegion');
             employer_country = watch('employerCountry');
         }
-        else {
+        else if (data.length > 0) {
             employer_name = watch('employerSelect');
 
             for (let i = 0; i < data.length; i++) {

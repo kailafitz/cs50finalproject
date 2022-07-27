@@ -21,7 +21,7 @@ export const Navigation = () => {
 
 
   const handleClick = () => {
-    axios.get("logout", {
+    axios.get("http://localhost:5000/logout", {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -36,7 +36,7 @@ export const Navigation = () => {
 
 
   useEffect(() => {
-    axios.get("active", {
+    axios.get("http://localhost:5000/active", {
       headers: {
         Authorization: 'Bearer ' + token
       }

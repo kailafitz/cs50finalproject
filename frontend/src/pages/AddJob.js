@@ -65,9 +65,10 @@ export const AddJob = () => {
 
   useEffect(() => {
     if (Object.keys(data).length <= 0) {
-      axios.get("add-job", {
+      axios.get("http://localhost:5000/add-job", {
         headers: {
-          Authorization: 'Bearer ' + token
+          Authorization: 'Bearer ' + token,
+          "Access-Control-Allow-Origin": "*"
         }
       }).then((response) => {
         setData(response.data);
@@ -92,7 +93,15 @@ export const AddJob = () => {
     let employer_region = "";
     let employer_country = "";
 
-    if (employerCheck === true) {
+    if (data.message === "No employers found") {
+      employer_name = e.target[2].value;
+      employer_line_1 = e.target[3].value;
+      employer_line_2 = e.target[4].value;
+      employer_town = e.target[5].value;
+      employer_region = e.target[6].value;
+      employer_country = e.target[7].value;
+    }
+    else if (employerCheck === true) {
       employer_name = e.target[4].value;
       employer_line_1 = e.target[5].value;
       employer_line_2 = e.target[6].value;
@@ -101,7 +110,6 @@ export const AddJob = () => {
       employer_country = e.target[9].value;
     }
     else {
-      employer_name = e.target[2].value;
       for (let i = 0; i < data.length; i++) {
         if (data[i].employer_name === employer_name) {
           employer_line_1 = data[i].employer_line_1;

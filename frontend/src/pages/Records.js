@@ -42,9 +42,10 @@ export const Records = () => {
     const { token } = useToken();
 
     useEffect(() => {
-        axios.get("records", {
+        axios.get("http://localhost:5000/records", {
             headers: {
-                Authorization: 'Bearer ' + token
+                Authorization: 'Bearer ' + token,
+                "Access-Control-Allow-Origin": "*"
             }
         }).then((response) => {
             setData(response.data);
