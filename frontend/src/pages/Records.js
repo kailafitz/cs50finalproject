@@ -67,6 +67,7 @@ export const Records = () => {
                                     <Styledthead>
                                         <tr>
                                             <th>Employer</th>
+                                            <th>Job</th>
                                             <th>Gross</th>
                                             <th>Tax</th>
                                             <th>Net</th>
@@ -80,6 +81,7 @@ export const Records = () => {
                                             return (
                                                 <tr key={record.id}>
                                                     <td>{record.employer_name}</td>
+                                                    <td>{record.job_description}</td>
                                                     <td>{formatter.format(record.gross_pay)}</td>
                                                     <td>{formatter.format(record.tax_due)}</td>
                                                     <td>{formatter.format(record.net_pay)}</td>

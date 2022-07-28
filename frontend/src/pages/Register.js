@@ -82,8 +82,6 @@ export const Register = () => {
     })
   }
 
-  console.log(agreement);
-
   return (
     <StyledContainer>
       <form onSubmit={(e) => handleSubmit(onSubmit(e))}>
@@ -172,7 +170,7 @@ export const Register = () => {
                   type="switch"
                   label="Terms and Conditions"
                   onClick={() => setAgreement(!agreement)}
-                  value={agreement}
+                  defaultChecked={agreement}
                 />
               </Form.Group>
             </div>

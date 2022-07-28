@@ -112,16 +112,27 @@ export const UpdateRecord = ({ id }) => {
             employer_region = watch('employerRegion');
             employer_country = watch('employerCountry');
         }
-        else if (data.length > 0) {
+        else {
             employer_name = watch('employerSelect');
 
-            for (let i = 0; i < data.length; i++) {
-                if (data[1][i].employer_name === employer_name) {
-                    employer_line_1 = data[1][i].employer_line_1;
-                    employer_line_2 = data[1][i].employer_line_2;
-                    employer_town = data[1][i].employer_town;
-                    employer_region = data[1][i].employer_region;
-                    employer_country = data[1][i].employer_country;
+            if (data[1].length > 1) {
+                for (let i = 0; i < data.length; i++) {
+                    if (data[1][i].employer_name === employer_name) {
+                        employer_line_1 = data[1][i].employer_line_1;
+                        employer_line_2 = data[1][i].employer_line_2;
+                        employer_town = data[1][i].employer_town;
+                        employer_region = data[1][i].employer_region;
+                        employer_country = data[1][i].employer_country;
+                    }
+                }
+            }
+            else {
+                if (data[1].employer_name === employer_name) {
+                    employer_line_1 = data[1].employer_line_1;
+                    employer_line_2 = data[1].employer_line_2;
+                    employer_town = data[1].employer_town;
+                    employer_region = data[1].employer_region;
+                    employer_country = data[1].employer_country;
                 }
             }
         }

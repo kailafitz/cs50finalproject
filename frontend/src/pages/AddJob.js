@@ -57,7 +57,7 @@ export const AddJob = () => {
   const [dataCheck, setDataCheck] = useState(false);
   const [employerCheck, setEmployerCheck] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit, watch, formState: { errors } } = useForm({
     mode: 'onBlur',
     reValidateMode: 'onSubmit',
     resolver: yupResolver(addJobSchema)
@@ -71,6 +71,7 @@ export const AddJob = () => {
           "Access-Control-Allow-Origin": "*"
         }
       }).then((response) => {
+        console.log(response.data);
         setData(response.data);
       });
     }
@@ -84,6 +85,7 @@ export const AddJob = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    console.log(e);
     const job_description = e.target[0].value;
     const gross_pay = e.target[1].value === '' ? 0.0 : e.target[1].value;
     let employer_name = "";
@@ -94,6 +96,7 @@ export const AddJob = () => {
     let employer_country = "";
 
     if (data.message === "No employers found") {
+      console.log("no employers found");
       employer_name = e.target[2].value;
       employer_line_1 = e.target[3].value;
       employer_line_2 = e.target[4].value;
@@ -110,6 +113,8 @@ export const AddJob = () => {
       employer_country = e.target[9].value;
     }
     else {
+      employer_name = watch('employerSelect');
+
       for (let i = 0; i < data.length; i++) {
         if (data[i].employer_name === employer_name) {
           employer_line_1 = data[i].employer_line_1;
@@ -127,7 +132,7 @@ export const AddJob = () => {
         "Access-Control-Allow-Origin": "*"
       }
     }).then(() => {
-      window.location.href = 'http://localhost:3000/records';
+      // window.location.href = 'http://localhost:3000/records';
     }).catch((e) => {
       let string = '';
       string = e.response.data.message;

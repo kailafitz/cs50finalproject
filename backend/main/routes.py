@@ -247,6 +247,7 @@ def addJob():
 
     if request.method == 'POST':
         data = request.get_json()
+        print(data)
         job_description = data['job_description']
         gross_pay = float(data['gross_pay'])
         employer_name = data['employer_name']
@@ -318,7 +319,6 @@ def edit_record(id):
     user = User.query.filter_by(username=username_of_logged_in_user).first()
     if request.method == 'PUT':
         data = request.get_json()
-        print(data)
         job_description = data['job_description']
         gross_pay = float(data['gross_pay'])
         date = parser().parse(data['date_created'])
@@ -367,6 +367,7 @@ def edit_record(id):
             db.session.add(new_employer)
             db.session.add(job)
             db.session.commit()
+            
         return {'message': 'Success'}, 200
 
     else:
