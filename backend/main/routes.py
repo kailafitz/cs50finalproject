@@ -247,7 +247,6 @@ def addJob():
 
     if request.method == 'POST':
         data = request.get_json()
-        print(data)
         job_description = data['job_description']
         gross_pay = float(data['gross_pay'])
         employer_name = data['employer_name']

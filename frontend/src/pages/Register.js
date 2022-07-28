@@ -170,7 +170,7 @@ export const Register = () => {
                   type="switch"
                   label="Terms and Conditions"
                   onClick={() => setAgreement(!agreement)}
-                  defaultChecked={agreement}
+                  checked={agreement}
                 />
               </Form.Group>
             </div>
