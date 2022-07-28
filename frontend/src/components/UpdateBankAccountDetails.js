@@ -83,7 +83,7 @@ export const UpdateBankAccountDetails = () => {
         <Container>
             <Row className="d-flex justify-content-center">
                 <Col xs={11} md={9}>
-                    {dataCheck || data != "" ? (
+                    {dataCheck || data !== "" ? (
                         <>
                             <h5 className="mb-5 text-start d-flex align-items-center">Bank Account Details <BiEdit className="ms-2 hover" onClick={handleShow} /></h5>
                             <Table striped borderless>
