@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import useToken from './useToken';
-import axios from 'axios';
-import { Button, Modal, Form } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import useToken from "../helpers/useToken";
+import axios from "axios";
+import { Button, Modal, Form } from "react-bootstrap";
 import { Controller, useForm } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
+import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { ErrorMessage } from '../components/ErrorMessage';
-import { BiEdit } from 'react-icons/bi';
-import { BsCalendar3 } from 'react-icons/bs';
-import DatePicker from 'react-date-picker';
-import styled from 'styled-components';
+import { ErrorMessage } from "../components/ErrorMessage";
+import { BiEdit } from "react-icons/bi";
+import { BsCalendar3 } from "react-icons/bs";
+import DatePicker from "react-date-picker";
+import styled from "styled-components";
 
 const StyledIcon = styled(BiEdit)`
     width: 1.3rem;
@@ -24,38 +24,38 @@ const StyledButton = styled(Button)`
 `
 
 const editJobSchema = yup.object({
-    jobDescription: yup.string().required('This is required'),
+    jobDescription: yup.string().required("This is required"),
 
-    grossPay: yup.number().required('This is required').min(1, 'An amount > 1 is required').typeError('This is required'),
-    dateCreated: yup.date().required('This is required'),
+    grossPay: yup.number().required("This is required").min(1, "An amount > 1 is required").typeError("This is required"),
+    dateCreated: yup.date().required("This is required"),
     employerCheck: yup.boolean(),
     employerSelect: yup.string().when("employerCheck", {
         is: false,
-        then: yup.string().required('This is required')
+        then: yup.string().required("This is required")
     }),
     employerName: yup.string().when("employerCheck", {
         is: true,
-        then: yup.string().required('This is required')
+        then: yup.string().required("This is required")
     }),
     employerLine1: yup.string().when("employerCheck", {
         is: true,
-        then: yup.string().required('This is required')
+        then: yup.string().required("This is required")
     }),
     employerLine2: yup.string().when("employerCheck", {
         is: true,
-        then: yup.string().required('This is required')
+        then: yup.string().required("This is required")
     }),
     employerTown: yup.string().when("employerCheck", {
         is: true,
-        then: yup.string().required('This is required')
+        then: yup.string().required("This is required")
     }),
     employerRegion: yup.string().when("employerCheck", {
         is: true,
-        then: yup.string().required('This is required')
+        then: yup.string().required("This is required")
     }),
     employerCountry: yup.string().when("employerCheck", {
         is: true,
-        then: yup.string().required('This is required')
+        then: yup.string().required("This is required")
     }),
 }).required();
 
@@ -64,12 +64,12 @@ export const UpdateRecord = ({ id }) => {
     const [show, setShow] = useState(false);
     const [dataCheck, setDataCheck] = useState(false);
     const [data, setData] = useState([]);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState("");
     const [employerCheck, setEmployerCheck] = useState(false);
 
     const { register, handleSubmit, control, clearErrors, watch, setValue, formState: { errors } } = useForm({
-        mode: 'onBlur',
-        reValidateMode: 'onSubmit',
+        mode: "onBlur",
+        reValidateMode: "onSubmit",
         resolver: yupResolver(editJobSchema)
     });
 
@@ -77,7 +77,7 @@ export const UpdateRecord = ({ id }) => {
         if (Object.keys(data).length <= 0) {
             axios.get(`http://localhost:5000/records/edit/${id}`, {
                 headers: {
-                    Authorization: 'Bearer ' + token,
+                    Authorization: "Bearer " + token,
                     "Access-Control-Allow-Origin": "*"
                 }
             }).then((response) => {
@@ -95,7 +95,7 @@ export const UpdateRecord = ({ id }) => {
     const onSubmit = (e) => {
         e.preventDefault();
         const job_description = e.target[0].value;
-        const gross_pay = e.target[1].value === '' ? 0.0 : e.target[1].value;
+        const gross_pay = e.target[1].value === "" ? 0.0 : e.target[1].value;
         const date = e.target[2].value;
         let employer_name = "";
         let employer_line_1 = "";
@@ -105,15 +105,15 @@ export const UpdateRecord = ({ id }) => {
         let employer_country = "";
 
         if (employerCheck === true) {
-            employer_name = watch('employerName');
-            employer_line_1 = watch('employerLine1');
-            employer_line_2 = watch('employerLine2');
-            employer_town = watch('employerTown');
-            employer_region = watch('employerRegion');
-            employer_country = watch('employerCountry');
+            employer_name = watch("employerName");
+            employer_line_1 = watch("employerLine1");
+            employer_line_2 = watch("employerLine2");
+            employer_town = watch("employerTown");
+            employer_region = watch("employerRegion");
+            employer_country = watch("employerCountry");
         }
         else {
-            employer_name = watch('employerSelect');
+            employer_name = watch("employerSelect");
 
             if (data[1].length > 1) {
                 for (let i = 0; i < data.length; i++) {
@@ -139,30 +139,30 @@ export const UpdateRecord = ({ id }) => {
 
         axios.put(`http://localhost:5000/records/edit/${id}`, { "job_description": job_description, "gross_pay": gross_pay, "date_created": date, "employer_name": employer_name, "employer_line_1": employer_line_1, "employer_line_2": employer_line_2, "employer_town": employer_town, "employer_region": employer_region, "employer_country": employer_country }, {
             headers: {
-                Authorization: 'Bearer ' + token,
+                Authorization: "Bearer " + token,
                 "Access-Control-Allow-Origin": "*"
             }
         }).then(() => {
-            setErrorMessage('');
+            setErrorMessage("");
             setShow(false);
             if (errors) {
                 clearErrors();
             }
-            window.location.href = 'http://localhost:3000/records';
+            window.location.href = "http://localhost:3000/records";
         }).catch((e) => {
-            let string = '';
+            let string = "";
             string = e.response.data.message;
             setErrorMessage(string);
         });
     }
 
     const handleCancel = () => {
-        setErrorMessage('');
+        setErrorMessage("");
         setShow(false);
-        setValue('jobDescription', data[0].job_description);
-        setValue('grossPay', data[0].gross_pay);
-        setValue('dateCreated', new Date(data[0].date_created));
-        setValue('employerSelect', data[0].employer_name);
+        setValue("jobDescription", data[0].job_description);
+        setValue("grossPay", data[0].gross_pay);
+        setValue("dateCreated", new Date(data[0].date_created));
+        setValue("employerSelect", data[0].employer_name);
         if (errors) {
             clearErrors();
         }
@@ -269,7 +269,7 @@ export const UpdateRecord = ({ id }) => {
                             </Button>
                         </Modal.Footer>
                     </form>
-                </> : <h3>Something went wrong</h3>}
+                </> : <h5 className="p-5">Something went wrong</h5>}
             </Modal>
         </>
 

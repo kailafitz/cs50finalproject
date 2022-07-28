@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button } from "react-bootstrap";
 import axios from "axios";
-import useToken from './useToken';
+import useToken from "../helpers/useToken";
 import { jsPDF } from "jspdf";
-import html2canvas from 'html2canvas';
-import { useParams } from 'react-router-dom';
-import { HiOutlineDownload } from 'react-icons/hi';
-import styled from 'styled-components';
+import html2canvas from "html2canvas";
+import { useParams } from "react-router-dom";
+import { HiOutlineDownload } from "react-icons/hi";
+import styled from "styled-components";
 import formatDate from "../helpers/formatDate";
 import formatter from "../helpers/formatCurrency";
+import { NotFound } from "./NotFound";
 
 const StyledCol = styled(Col)`
   height: 40vh;
@@ -36,7 +37,7 @@ export const Invoice = () => {
         if (Object.keys(data).length <= 0) {
             axios.get(`http://localhost:5000/records/${id}`, {
                 headers: {
-                    Authorization: 'Bearer ' + token,
+                    Authorization: "Bearer " + token,
                     "Access-Control-Allow-Origin": "*"
                 }
             }).then((response) => {
@@ -55,25 +56,25 @@ export const Invoice = () => {
         const input = document.querySelector("#invoice");
         html2canvas(input)
             .then((canvas) => {
-                const imgData = canvas.toDataURL('image/png');
+                const imgData = canvas.toDataURL("image/png");
                 const pdf = new jsPDF({
                     orientation: "portrait",
                 });
                 const imgProps = pdf.getImageProperties(imgData);
                 const pdfWidth = pdf.internal.pageSize.getWidth();
                 const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-                pdf.save(`${data[1].first_name + '_' + data[1].last_name}_Invoice_${data[0].id}`);
+                pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+                pdf.save(`${data[1].first_name + "_" + data[1].last_name}_Invoice_${data[0].id}`);
             });
     }
 
     return (
         <>
-            <StyledButton className="position-fixed text-white d-xl-block rounded-3" onClick={() => downloadPDF()}><HiOutlineDownload /></StyledButton>
+            {dataCheck ? <StyledButton className="position-fixed text-white d-none d-xl-block rounded-3" onClick={() => downloadPDF()}><HiOutlineDownload /></StyledButton> : null}
             <Container fluid="xl" className="position-relative" id="invoice">
                 {dataCheck ? (
                     <>
-                        <Row className="justify-content-center bg-primary p-5 d-xl-flex d-none text-white">
+                        <Row className="justify-content-center bg-primary p-5 text-white d-xl-flex d-none">
                             <Col xl={10}>
                                 <Row className="justify-content-center">
                                     <Col xl={6} className="text-start pt-5">
@@ -111,7 +112,7 @@ export const Invoice = () => {
                                     </Col>
                                     <Col className="text-end pt-5">
                                         <h1 className="m-0">Invoice</h1>
-                                        <StyledP className="m-0">{data[1].first_name + ' ' + data[1].last_name}</StyledP>
+                                        <StyledP className="m-0">{data[1].first_name + " " + data[1].last_name}</StyledP>
                                         <StyledP className="m-0">{data[2].line_1}</StyledP>
                                         <StyledP className="m-0">{data[2].line_2}</StyledP>
                                         <StyledP className="m-0">{data[2].town}</StyledP>
@@ -149,15 +150,19 @@ export const Invoice = () => {
                                 <StyledP>{formatter.format(data[0].gross_pay)}</StyledP>
                             </Col>
                         </Row>
-                        <Row className="justify-content-center bg-primary p-5 d-xl-flex d-none text-white">
-                            <Col xl={6} className="text-center my-5">
+                        <Row className="justify-content-center bg-primary text-white d-xl-flex d-none">
+                            <Col xl={8} className="text-center my-5">
                                 <h4 className="mb-5">Thank You!</h4>
                                 <StyledP className="mb-1">Get in touch with any queries you may have.</StyledP>
                                 <StyledP className="m-0">{data[3].email}</StyledP>
                             </Col>
                         </Row>
+                        <Row className="vh-100 d-flex flex-column justify-content-center d-xl-none d-block text-center">
+                            <h5>Your screen size cannot view this page</h5>
+                            <p>Please refresh and enlarge your screen or try a different device</p>
+                        </Row>
                     </>
-                ) : <Row className="d-flex flex-column justify-content-center vh-100 text-center"><h3>Something went wrong</h3></Row>}
+                ) : <Row className="d-flex flex-column justify-content-center vh-100 text-center"><NotFound /></Row>}
             </Container>
         </>
     )

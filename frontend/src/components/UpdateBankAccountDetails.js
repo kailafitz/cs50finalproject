@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import useToken from '../components/useToken';
-import { Button, Container, Row, Col, Form, Modal, Table } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import useToken from "../helpers/useToken";
+import { Button, Container, Row, Col, Form, Modal, Table } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
+import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { BiEdit } from 'react-icons/bi';
-import { ErrorMessage } from '../components/ErrorMessage';
+import { BiEdit } from "react-icons/bi";
+import { ErrorMessage } from "../components/ErrorMessage";
 
 const bankAccountSchema = yup.object({
-    bic: yup.string().required('This is required'),
-    iban: yup.string().required('This is required'),
+    bic: yup.string().required("This is required"),
+    iban: yup.string().required("This is required"),
 }).required();
 
 export const UpdateBankAccountDetails = () => {
@@ -18,11 +18,11 @@ export const UpdateBankAccountDetails = () => {
     const [data, setData] = useState([]);
     const [dataCheck, setDataCheck] = useState(false);
     const [show, setShow] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState("");
 
     const { register, handleSubmit, clearErrors, setValue, formState: { errors } } = useForm({
-        mode: 'onBlur',
-        reValidateMode: 'onSubmit',
+        mode: "onBlur",
+        reValidateMode: "onSubmit",
         resolver: yupResolver(bankAccountSchema)
     });
 
@@ -30,7 +30,7 @@ export const UpdateBankAccountDetails = () => {
         if (Object.keys(data).length <= 0) {
             axios.get("http://localhost:5000/bank-details", {
                 headers: {
-                    Authorization: 'Bearer ' + token,
+                    Authorization: "Bearer " + token,
                     "Access-Control-Allow-Origin": "*"
                 }
             }).then((response) => {
@@ -51,28 +51,28 @@ export const UpdateBankAccountDetails = () => {
         const iban = e.target[1].value;
         axios.put("http://localhost:5000/bank-details", { "bic": bic, "iban": iban }, {
             headers: {
-                Authorization: 'Bearer ' + token,
+                Authorization: "Bearer " + token,
                 "Access-Control-Allow-Origin": "*"
             }
         }).then((response) => {
             setData(response.data);
-            setErrorMessage('');
+            setErrorMessage("");
             setShow(false);
             if (errors) {
                 clearErrors();
             }
         }).catch((e) => {
-            let string = '';
+            let string = "";
             string = e.response.data.message;
             setErrorMessage(string);
         });
     }
 
     const handleCancel = () => {
-        setErrorMessage('');
+        setErrorMessage("");
         setShow(false);
-        setValue('bic', data.bic);
-        setValue('iban', data.iban);
+        setValue("bic", data.bic);
+        setValue("iban", data.iban);
         if (errors) {
             clearErrors();
         }
@@ -83,7 +83,7 @@ export const UpdateBankAccountDetails = () => {
         <Container>
             <Row className="d-flex justify-content-center">
                 <Col xs={11} md={9}>
-                    {dataCheck || data != '' ? (
+                    {dataCheck || data != "" ? (
                         <>
                             <h5 className="mb-5 text-start d-flex align-items-center">Bank Account Details <BiEdit className="ms-2 hover" onClick={handleShow} /></h5>
                             <Table striped borderless>

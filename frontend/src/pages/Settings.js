@@ -1,8 +1,8 @@
-import React from 'react';
-import { Container, Col, Row } from 'react-bootstrap';
-import { UpdateBankAccountDetails } from '../components/UpdateBankAccountDetails';
-import { UpdatePersonalDetails } from '../components/UpdatePersonalDetails';
-import styled from 'styled-components';
+import React from "react";
+import { Container, Col, Row } from "react-bootstrap";
+import { UpdateBankAccountDetails } from "../components/UpdateBankAccountDetails";
+import { UpdatePersonalDetails } from "../components/UpdatePersonalDetails";
+import styled from "styled-components";
 
 const StyledContainer = styled(Container)`
   display: flex;

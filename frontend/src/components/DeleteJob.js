@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import useToken from './useToken';
-import { Button, Modal } from 'react-bootstrap';
-import { BiTrash } from 'react-icons/bi';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import axios from "axios";
+import useToken from "../helpers/useToken";
+import { Button, Modal } from "react-bootstrap";
+import { BiTrash } from "react-icons/bi";
+import styled from "styled-components";
 
 const StyledIcon = styled(BiTrash)`
     width: 1.3rem;
@@ -29,11 +29,11 @@ export const DeleteJob = ({ id }) => {
         e.preventDefault();
         axios.delete(`http://localhost:5000/records/delete/${id}`, {
             headers: {
-                Authorization: 'Bearer ' + token,
+                Authorization: "Bearer " + token,
                 "Access-Control-Allow-Origin": "*"
             }
         }).then(() => {
-            window.location.href = 'http://localhost:3000/records';
+            window.location.href = "http://localhost:3000/records";
         }).catch((e) => {
             console.log(e);
         })

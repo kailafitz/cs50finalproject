@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import { AiOutlineCopyrightCircle } from 'react-icons/ai';
+import React, { useState, useEffect } from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import { AiOutlineCopyrightCircle } from "react-icons/ai";
 
 export const Footer = () => {
   const [show, setShow] = useState(true);

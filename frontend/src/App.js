@@ -1,18 +1,18 @@
-import React from 'react';
-import 'react-date-picker/dist/DatePicker.css';
-import 'react-calendar/dist/Calendar.css';
-import './styles/custom_bootstrap.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Home } from './pages/Home';
-import { Register } from './pages/Register';
-import { Login } from './pages/Login';
-import { AddJob } from './pages/AddJob';
-import { Records } from './pages/Records';
-import { Invoice } from './components/Invoice';
-import { Navigation } from './components/Navigation';
-import { Settings } from './pages/Settings';
-import { Footer } from './components/Footer';
-import { Dashboard } from './components/Dashboard';
+import React from "react";
+import "react-date-picker/dist/DatePicker.css";
+import "react-calendar/dist/Calendar.css";
+import "./styles/custom_bootstrap.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Home } from "./pages/Home";
+import { Register } from "./pages/Register";
+import { Login } from "./pages/Login";
+import { AddJob } from "./pages/AddJob";
+import { Records } from "./pages/Records";
+import { Invoice } from "./components/Invoice";
+import { Navigation } from "./components/Navigation";
+import { Settings } from "./pages/Settings";
+import { Footer } from "./components/Footer";
+import { Dashboard } from "./pages/Dashboard";
 
 function App() {
 

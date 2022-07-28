@@ -3,9 +3,6 @@ from sqlalchemy import Column, ForeignKey, Integer, Float, String, DateTime
 from datetime import datetime
 from sqlalchemy.orm import relationship
 
-# python3
-# from main.models import db
-
 db = SQLAlchemy()
 
 

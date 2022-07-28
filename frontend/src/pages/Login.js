@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import useToken from '../components/useToken';
+import React, { useState } from "react";
+import axios from "axios";
+import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import useToken from "../helpers/useToken";
 import { useForm } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
+import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { ErrorMessage } from '../components/ErrorMessage';
+import { ErrorMessage } from "../components/ErrorMessage";
 
 const loginSchema = yup.object({
-    username: yup.string().required('This is required'),
-    password: yup.string().required('This is required'),
+    username: yup.string().required("This is required"),
+    password: yup.string().required("This is required"),
 }).required();
 
 export const Login = () => {
     const { setToken } = useToken();
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState("");
 
     const { register, handleSubmit, formState: { errors } } = useForm({
-        mode: 'onBlur',
-        reValidateMode: 'onSubmit',
+        mode: "onBlur",
+        reValidateMode: "onSubmit",
         resolver: yupResolver(loginSchema)
     });
 
@@ -28,9 +28,9 @@ export const Login = () => {
         const password = e.target[1].value;
         axios.post("http://localhost:5000/login", { "username": username, "password": password }).then(response => {
             setToken(response.data.access_token)
-            window.location.href = 'http://localhost:3000/records'
+            window.location.href = "http://localhost:3000/records"
         }).catch((e) => {
-            let string = '';
+            let string = "";
             string = e.response.data.message;
             setErrorMessage(string);
         })

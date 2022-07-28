@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import axios from 'axios';
-import useToken from '../components/useToken';
-import { Button, Container, Row, Col, Form } from 'react-bootstrap';
+import axios from "axios";
+import useToken from "../helpers/useToken";
+import { Button, Container, Row, Col, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
+import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { ErrorMessage } from '../components/ErrorMessage';
-import styled from 'styled-components';
+import { ErrorMessage } from "../components/ErrorMessage";
+import styled from "styled-components";
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -17,49 +17,49 @@ const StyledContainer = styled(Container)`
 `
 
 const addJobSchema = yup.object({
-  jobDescription: yup.string().required('This is required'),
-  grossPay: yup.number().required('This is required').min(1, 'An amount > 1 is required').typeError('This is required'),
+  jobDescription: yup.string().required("This is required"),
+  grossPay: yup.number().required("This is required").min(1, "An amount > 1 is required").typeError("This is required"),
   employerCheck: yup.boolean(),
   employerSelect: yup.string().when("employerCheck", {
     is: false,
-    then: yup.string().required('This is required')
+    then: yup.string().required("This is required")
   }),
   employerName: yup.string().when("employerCheck", {
     is: true,
-    then: yup.string().required('This is required')
+    then: yup.string().required("This is required")
   }),
   employerLine1: yup.string().when("employerCheck", {
     is: true,
-    then: yup.string().required('This is required')
+    then: yup.string().required("This is required")
   }),
   employerLine2: yup.string().when("employerCheck", {
     is: true,
-    then: yup.string().required('This is required')
+    then: yup.string().required("This is required")
   }),
   employerTown: yup.string().when("employerCheck", {
     is: true,
-    then: yup.string().required('This is required')
+    then: yup.string().required("This is required")
   }),
   employerRegion: yup.string().when("employerCheck", {
     is: true,
-    then: yup.string().required('This is required')
+    then: yup.string().required("This is required")
   }),
   employerCountry: yup.string().when("employerCheck", {
     is: true,
-    then: yup.string().required('This is required')
+    then: yup.string().required("This is required")
   }),
 }).required();
 
 export const AddJob = () => {
   const [data, setData] = useState([]);
   const { token } = useToken();
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
   const [dataCheck, setDataCheck] = useState(false);
   const [employerCheck, setEmployerCheck] = useState(false);
 
   const { register, handleSubmit, watch, formState: { errors } } = useForm({
-    mode: 'onBlur',
-    reValidateMode: 'onSubmit',
+    mode: "onBlur",
+    reValidateMode: "onSubmit",
     resolver: yupResolver(addJobSchema)
   });
 
@@ -67,11 +67,10 @@ export const AddJob = () => {
     if (Object.keys(data).length <= 0) {
       axios.get("http://localhost:5000/add-job", {
         headers: {
-          Authorization: 'Bearer ' + token,
+          Authorization: "Bearer " + token,
           "Access-Control-Allow-Origin": "*"
         }
       }).then((response) => {
-        console.log(response.data);
         setData(response.data);
       });
     }
@@ -85,9 +84,8 @@ export const AddJob = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
     const job_description = e.target[0].value;
-    const gross_pay = e.target[1].value === '' ? 0.0 : e.target[1].value;
+    const gross_pay = e.target[1].value === "" ? 0.0 : e.target[1].value;
     let employer_name = "";
     let employer_line_1 = "";
     let employer_line_2 = "";
@@ -96,7 +94,6 @@ export const AddJob = () => {
     let employer_country = "";
 
     if (data.message === "No employers found") {
-      console.log("no employers found");
       employer_name = e.target[2].value;
       employer_line_1 = e.target[3].value;
       employer_line_2 = e.target[4].value;
@@ -113,7 +110,7 @@ export const AddJob = () => {
       employer_country = e.target[9].value;
     }
     else {
-      employer_name = watch('employerSelect');
+      employer_name = watch("employerSelect");
 
       for (let i = 0; i < data.length; i++) {
         if (data[i].employer_name === employer_name) {
@@ -128,13 +125,13 @@ export const AddJob = () => {
 
     axios.post("http://localhost:5000/add-job", { "job_description": job_description, "gross_pay": gross_pay, "employer_name": employer_name, "employer_line_1": employer_line_1, "employer_line_2": employer_line_2, "employer_town": employer_town, "employer_region": employer_region, "employer_country": employer_country }, {
       headers: {
-        Authorization: 'Bearer ' + token,
+        Authorization: "Bearer " + token,
         "Access-Control-Allow-Origin": "*"
       }
     }).then(() => {
-      // window.location.href = 'http://localhost:3000/records';
+      window.location.href = "http://localhost:3000/records";
     }).catch((e) => {
-      let string = '';
+      let string = "";
       string = e.response.data.message;
       setErrorMessage(string);
     });

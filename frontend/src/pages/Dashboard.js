@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Form } from 'react-bootstrap';
+import { Container, Row, Col, Form } from "react-bootstrap";
 import axios from "axios";
-import useToken from './useToken';
+import useToken from "../helpers/useToken";
 import formatter from "../helpers/formatCurrency";
-import { GiReceiveMoney } from 'react-icons/gi';
-import { GiTakeMyMoney } from 'react-icons/gi';
-import { HiReceiptTax } from 'react-icons/hi';
-import NotFound from '../media/not-found.json';
+import { GiReceiveMoney } from "react-icons/gi";
+import { GiTakeMyMoney } from "react-icons/gi";
+import { HiReceiptTax } from "react-icons/hi";
+import NotFound from "../media/not-found.json";
 import Lottie from "lottie-react";
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -43,7 +43,7 @@ export const Dashboard = () => {
         if (Object.keys(data).length <= 0) {
             axios.get("http://localhost:5000/dashboard", {
                 headers: {
-                    Authorization: 'Bearer ' + token,
+                    Authorization: "Bearer " + token,
                     "Access-Control-Allow-Origin": "*"
                 }
             }).then((response) => {
@@ -64,7 +64,7 @@ export const Dashboard = () => {
         const year = e.target.value;
         axios.post("http://localhost:5000/dashboard", { "year": year }, {
             headers: {
-                Authorization: 'Bearer ' + token,
+                Authorization: "Bearer " + token,
                 "Access-Control-Allow-Origin": "*"
             }
         }).then(response => {

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Container, Nav, Navbar, Button } from 'react-bootstrap';
-import useToken from './useToken';
-import Hamburger from 'hamburger-react';
+import { Container, Nav, Navbar, Button } from "react-bootstrap";
+import useToken from "../helpers/useToken";
+import Hamburger from "hamburger-react";
 
 export const Navigation = () => {
   const [isAuthorised, setIsAuthorised] = useState(false);
@@ -23,11 +23,11 @@ export const Navigation = () => {
   const handleClick = () => {
     axios.get("http://localhost:5000/logout", {
       headers: {
-        Authorization: 'Bearer ' + token
+        Authorization: "Bearer " + token
       }
     }).then((response) => {
       removeToken();
-      window.location.href = 'http://localhost:3000/';
+      window.location.href = "http://localhost:3000/";
       return response;
     }).catch((err) => {
       return err;
@@ -38,20 +38,20 @@ export const Navigation = () => {
   useEffect(() => {
     axios.get("http://localhost:5000/active", {
       headers: {
-        Authorization: 'Bearer ' + token
+        Authorization: "Bearer " + token
       }
     }).then((response) => {
       if (response.status === 200) {
         setIsAuthorised(true);
       } else {
         setIsAuthorised(false);
-        if (window.location.href !== 'http://localhost:3000/') {
+        if (window.location.href !== "http://localhost:3000/") {
           handleClick();
         }
       }
     }).catch(err => {
       setIsAuthorised(false);
-      if (window.location.href !== 'http://localhost:3000/') {
+      if (window.location.href !== "http://localhost:3000/") {
         handleClick();
       }
       return err;

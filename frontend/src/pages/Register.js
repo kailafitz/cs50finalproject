@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import useToken from '../components/useToken';
+import React, { useState } from "react";
+import axios from "axios";
+import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import useToken from "../helpers/useToken";
 import { useForm } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
+import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { ErrorMessage } from '../components/ErrorMessage';
-import styled from 'styled-components';
-import { Stepper, Step } from 'react-form-stepper';
+import { ErrorMessage } from "../components/ErrorMessage";
+import styled from "styled-components";
+import { Stepper, Step } from "react-form-stepper";
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -18,20 +18,20 @@ const StyledContainer = styled(Container)`
 `
 
 const registerSchema = yup.object({
-  username: yup.string().required('This is required'),
-  email: yup.string().email('This must be an email address').required('This is required'),
-  password: yup.string().required('This is required').min(8, 'This must be at least 8 characters'),
-  confirmPassword: yup.string().required('This is required').min(8, 'This must be at least 8 characters'),
-  firstName: yup.string().required('This is required'),
-  lastName: yup.string().required('This is required'),
-  bic: yup.string().required('This is required'),
-  iban: yup.string().required('This is required'),
-  vatNumber: yup.string().required('This is required'),
-  line1: yup.string().required('This is required'),
-  line2: yup.string().required('This is required'),
-  town: yup.string().required('This is required'),
-  region: yup.string().required('This is required'),
-  country: yup.string().required('This is required'),
+  username: yup.string().required("This is required"),
+  email: yup.string().email("This must be an email address").required("This is required"),
+  password: yup.string().required("This is required").min(8, "This must be at least 8 characters"),
+  confirmPassword: yup.string().required("This is required").min(8, "This must be at least 8 characters"),
+  firstName: yup.string().required("This is required"),
+  lastName: yup.string().required("This is required"),
+  bic: yup.string().required("This is required"),
+  iban: yup.string().required("This is required"),
+  vatNumber: yup.string().required("This is required"),
+  line1: yup.string().required("This is required"),
+  line2: yup.string().required("This is required"),
+  town: yup.string().required("This is required"),
+  region: yup.string().required("This is required"),
+  country: yup.string().required("This is required"),
 }).required();
 
 const StepStyleDTO = {
@@ -46,13 +46,13 @@ const ConnectorStyleProps = {
 
 export const Register = () => {
   const { setToken } = useToken();
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
   const [step, setStep] = useState(0);
   const [agreement, setAgreement] = useState(false);
 
   const { register, handleSubmit, formState: { errors } } = useForm({
-    mode: 'onChange',
-    reValidateMode: 'onSubmit',
+    mode: "onChange",
+    reValidateMode: "onSubmit",
     resolver: yupResolver(registerSchema)
   });
 
@@ -73,10 +73,10 @@ export const Register = () => {
     const region = e.target[15].value;
     const country = e.target[16].value;
     axios.post("http://localhost:5000/register", { "username": username, "email": email, "password": password, "confirm_password": confirm_password, "first_name": first_name, "last_name": last_name, "bic": bic, "iban": iban, "vat_number": vat_number, "line_1": line_1, "line_2": line_2, "town": town, "region": region, "country": country }).then(response => {
-      setToken(response.data.access_token)
-      window.location.href = 'http://localhost:3000/records'
+      setToken(response.data.access_token);
+      window.location.href = "http://localhost:3000/records";
     }).catch((e) => {
-      let string = '';
+      let string = "";
       string = e.response.data.message;
       setErrorMessage(string);
     })

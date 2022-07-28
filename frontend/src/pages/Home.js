@@ -1,8 +1,8 @@
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import styled from 'styled-components';
+import React from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import styled from "styled-components";
 import Lottie from "lottie-react";
-import System from '../media/home.json';
+import System from "../media/home.json";
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -13,6 +13,7 @@ const StyledContainer = styled(Container)`
 
 const TagLine = styled.h6`
   letter-spacing: .46em;
+  text-transform: lowercase;
 `
 
 export const Home = () => {
@@ -26,7 +27,7 @@ export const Home = () => {
         </Col>
         <Col xs={10} md={6} className="mt-4 mt-md-0 text-center d-flex flex-column justify-content-center">
           <h1>Lancer</h1>
-          <TagLine>Freelancing freely</TagLine>
+          <TagLine>Freelancing with ease</TagLine>
         </Col>
       </Row>
     </StyledContainer>

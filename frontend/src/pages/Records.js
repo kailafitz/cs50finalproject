@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Container, Table, Row, Col, Button } from 'react-bootstrap';
+import { Container, Table, Row, Col, Button } from "react-bootstrap";
 import axios from "axios";
-import useToken from "../components/useToken";
-import styled from 'styled-components';
+import useToken from "../helpers/useToken";
+import styled from "styled-components";
 import formatDate from "../helpers/formatDate";
 import formatter from "../helpers/formatCurrency";
-import NotFound from '../media/not-found.json';
+import NotFound from "../media/not-found.json";
 import Lottie from "lottie-react";
 import { UpdateRecord } from "../components/UpdateJob";
 import { DeleteJob } from "../components/DeleteJob";
@@ -44,7 +44,7 @@ export const Records = () => {
     useEffect(() => {
         axios.get("http://localhost:5000/records", {
             headers: {
-                Authorization: 'Bearer ' + token,
+                Authorization: "Bearer " + token,
                 "Access-Control-Allow-Origin": "*"
             }
         }).then((response) => {

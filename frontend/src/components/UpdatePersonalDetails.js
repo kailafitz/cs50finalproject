@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import useToken from '../components/useToken';
-import { Button, Container, Row, Col, Form, Modal, Table } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import useToken from "../helpers/useToken";
+import { Button, Container, Row, Col, Form, Modal, Table } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
+import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { BiEdit } from 'react-icons/bi';
-import { ErrorMessage } from '../components/ErrorMessage';
+import { BiEdit } from "react-icons/bi";
+import { ErrorMessage } from "../components/ErrorMessage";
 
 const personalDetailsSchema = yup.object({
-    vatNumber: yup.string().required('This is required'),
+    vatNumber: yup.string().required("This is required"),
 }).required();
 
 export const UpdatePersonalDetails = () => {
@@ -17,11 +17,11 @@ export const UpdatePersonalDetails = () => {
     const [data, setData] = useState([]);
     const [dataCheck, setDataCheck] = useState(false);
     const [show, setShow] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState("");
 
     const { register, handleSubmit, clearErrors, setValue, formState: { errors } } = useForm({
-        mode: 'onBlur',
-        reValidateMode: 'onSubmit',
+        mode: "onBlur",
+        reValidateMode: "onSubmit",
         resolver: yupResolver(personalDetailsSchema)
     });
 
@@ -29,7 +29,7 @@ export const UpdatePersonalDetails = () => {
         if (Object.keys(data).length <= 0) {
             axios.get("http://localhost:5000/personal-details", {
                 headers: {
-                    Authorization: 'Bearer ' + token,
+                    Authorization: "Bearer " + token,
                     "Access-Control-Allow-Origin": "*"
                 }
             }).then((response) => {
@@ -49,27 +49,27 @@ export const UpdatePersonalDetails = () => {
         const vat_number = e.target[0].value;
         axios.put("http://localhost:5000/personal-details", { "vat_number": vat_number }, {
             headers: {
-                Authorization: 'Bearer ' + token,
+                Authorization: "Bearer " + token,
                 "Access-Control-Allow-Origin": "*"
             }
         }).then((response) => {
-            setErrorMessage('');
+            setErrorMessage("");
             setShow(false);
             if (errors) {
                 clearErrors();
             }
             setData(response.data);
         }).catch((e) => {
-            let string = '';
+            let string = "";
             string = e.response.data.message;
             setErrorMessage(string);
         });
     }
 
     const handleCancel = () => {
-        setErrorMessage('');
+        setErrorMessage("");
         setShow(false);
-        setValue('vatNumber', data.vat_number);
+        setValue("vatNumber", data.vat_number);
         if (errors) {
             clearErrors();
         }
