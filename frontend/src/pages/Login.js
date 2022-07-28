@@ -47,11 +47,11 @@ export const Login = () => {
                     <form onSubmit={(e) => handleSubmit(onSubmit(e))}>
                         <Form.Group className="mb-3" controlId="loginUsername">
                             <Form.Control type="text" placeholder="username" name="username" {...register("username")} />
-                            {errors ? <p className="text-danger">{errors.username?.message}</p> : null}
+                            {errors ? <p className="text-danger pt-1">{errors.username?.message}</p> : null}
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="loginPassword">
                             <Form.Control type="password" placeholder="password" name="password" {...register("password")} />
-                            {errors ? <p className="text-danger">{errors.password?.message}</p> : null}
+                            {errors ? <p className="text-danger pt-1">{errors.password?.message}</p> : null}
                         </Form.Group>
                         {errorMessage ?
                             <ErrorMessage message={errorMessage} /> : null}

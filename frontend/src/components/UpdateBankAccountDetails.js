@@ -115,12 +115,12 @@ export const UpdateBankAccountDetails = () => {
                                 <Form.Group className="mb-3" controlId="">
                                     <Form.Label>BIC</Form.Label>
                                     <Form.Control type="string" name="bic" placeholder="bic" defaultValue={data.bic} {...register("bic")} />
-                                    {errors ? <p className="text-danger">{errors.bic?.message}</p> : null}
+                                    {errors ? <p className="text-danger pt-1">{errors.bic?.message}</p> : null}
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="">
                                     <Form.Label>IBAN</Form.Label>
                                     <Form.Control type="string" name="iban" placeholder="iban" defaultValue={data.iban} {...register("iban")} />
-                                    {errors ? <p className="text-danger">{errors.iban?.message}</p> : null}
+                                    {errors ? <p className="text-danger pt-1">{errors.iban?.message}</p> : null}
                                 </Form.Group>
                                 {errorMessage ?
                                     <ErrorMessage message={errorMessage} /> : null}

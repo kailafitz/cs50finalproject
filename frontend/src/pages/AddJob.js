@@ -148,12 +148,12 @@ export const AddJob = () => {
           <form onSubmit={(e) => handleSubmit(onSubmit(e))}>
             <Form.Group className="mb-3" controlId="">
               <Form.Control type="string" name="job_description" placeholder="job description" {...register("jobDescription")} />
-              {errors ? <p className="text-danger">{errors.jobDescription?.message}</p> : null}
+              {errors ? <p className="text-danger pt-1">{errors.jobDescription?.message}</p> : null}
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="">
               <Form.Control type="number" min={0} step=".01" name="gross_pay" placeholder="gross income" {...register("grossPay")} />
-              {errors ? <p className="text-danger">{errors.grossPay?.message}</p> : null}
+              {errors ? <p className="text-danger pt-1">{errors.grossPay?.message}</p> : null}
             </Form.Group>
 
             <hr className="my-5 w-75 mx-auto" />
@@ -167,7 +167,7 @@ export const AddJob = () => {
                   {data.map((employer) => { return <option key={employer.employer_name} value={employer.employer_name}>{employer.employer_name}</option> }
                   )}
                 </Form.Select>
-                {errors ? <p className="text-danger">{errors.employerSelect?.message}</p> : null}
+                {errors ? <p className="text-danger pt-1">{errors.employerSelect?.message}</p> : null}
               </>
             ) : null}
 
@@ -184,27 +184,27 @@ export const AddJob = () => {
             {employerCheck === true || data.message === "No employers found" ? <>
               <Form.Group className="mb-3" controlId="">
                 <Form.Control type="string" name="employer_name" placeholder="employer name" {...register("employerName")} />
-                {errors ? <p className="text-danger">{errors.employerName?.message}</p> : null}
+                {errors ? <p className="text-danger pt-1">{errors.employerName?.message}</p> : null}
               </Form.Group>
               <Form.Group className="mb-3" controlId="">
                 <Form.Control type="string" name="employer_line_1" placeholder="line 1" {...register("employerLine1")} />
-                {errors ? <p className="text-danger">{errors.employerLine1?.message}</p> : null}
+                {errors ? <p className="text-danger pt-1">{errors.employerLine1?.message}</p> : null}
               </Form.Group>
               <Form.Group className="mb-3" controlId="">
                 <Form.Control type="string" name="employer_line_2" placeholder="line 2" {...register("employerLine2")} />
-                {errors ? <p className="text-danger">{errors.employerLine2?.message}</p> : null}
+                {errors ? <p className="text-danger pt-1">{errors.employerLine2?.message}</p> : null}
               </Form.Group>
               <Form.Group className="mb-3" controlId="">
                 <Form.Control type="string" name="employer_town" placeholder="town" {...register("employerTown")} />
-                {errors ? <p className="text-danger">{errors.employerTown?.message}</p> : null}
+                {errors ? <p className="text-danger pt-1">{errors.employerTown?.message}</p> : null}
               </Form.Group>
               <Form.Group className="mb-3" controlId="">
                 <Form.Control type="string" name="employer_region" placeholder="region" {...register("employerRegion")} />
-                {errors ? <p className="text-danger">{errors.employerRegion?.message}</p> : null}
+                {errors ? <p className="text-danger pt-1">{errors.employerRegion?.message}</p> : null}
               </Form.Group>
               <Form.Group className="mb-3" controlId="">
                 <Form.Control type="string" name="employer_country" placeholder="country" {...register("employerCountry")} />
-                {errors ? <p className="text-danger">{errors.employerCountry?.message}</p> : null}
+                {errors ? <p className="text-danger pt-1">{errors.employerCountry?.message}</p> : null}
               </Form.Group></> : null}
             {errorMessage ?
               <ErrorMessage message={errorMessage} /> : null}

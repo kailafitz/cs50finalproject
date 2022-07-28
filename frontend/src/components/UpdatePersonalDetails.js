@@ -110,7 +110,7 @@ export const UpdatePersonalDetails = () => {
                                 <Form.Group className="mb-3" controlId="">
                                     <Form.Label>VAT #</Form.Label>
                                     <Form.Control type="string" name="vat_number" placeholder="vat #" defaultValue={data.vat_number} {...register("vatNumber")} />
-                                    {errors ? <p className="text-danger">{errors.vatNumber?.message}</p> : null}
+                                    {errors ? <p className="text-danger pt-1">{errors.vatNumber?.message}</p> : null}
                                 </Form.Group>
                                 {errorMessage ?
                                     <ErrorMessage message={errorMessage} /> : null}

@@ -105,65 +105,65 @@ export const Register = () => {
             <div className={step === 0 ? "d-block" : "d-none"}>
               <Form.Group className="mb-3" controlId="registerUsername">
                 <Form.Control type="text" placeholder="username" name="username" {...register("username")} />
-                {errors ? <p className="text-danger">{errors.username?.message}</p> : null}
+                {errors ? <p className="text-danger pt-1">{errors.username?.message}</p> : null}
               </Form.Group>
               <Form.Group className="mb-3" controlId="registerEmail">
                 <Form.Control type="email" placeholder="email" name="email" {...register("email")} />
-                {errors ? <p className="text-danger">{errors.email?.message}</p> : null}
+                {errors ? <p className="text-danger pt-1">{errors.email?.message}</p> : null}
               </Form.Group>
               <Form.Group className="mb-3" controlId="registerPassword">
                 <Form.Control type="password" placeholder="password" name="password" {...register("password")} />
-                {errors ? <p className="text-danger">{errors.password?.message}</p> : null}
+                {errors ? <p className="text-danger pt-1">{errors.password?.message}</p> : null}
               </Form.Group>
               <Form.Group className="mb-3" controlId="registerconfirm_password">
                 <Form.Control type="password" placeholder="confirm password" name="confirm_password" {...register("confirmPassword")} />
-                {errors ? <p className="text-danger">{errors.confirmPassword?.message}</p> : null}
+                {errors ? <p className="text-danger pt-1">{errors.confirmPassword?.message}</p> : null}
               </Form.Group>
             </div>
 
             <div className={step === 1 ? "d-block" : "d-none"}>
               <Form.Group className="mb-3" controlId="registerfirst_name">
                 <Form.Control type="string" name="first_name" placeholder="first name" {...register("firstName")} />
-                {errors ? <p className="text-danger">{errors.firstName?.message}</p> : null}
+                {errors ? <p className="text-danger pt-1">{errors.firstName?.message}</p> : null}
               </Form.Group>
               <Form.Group className="mb-3" controlId="registerlast_name">
                 <Form.Control type="string" name="last_name" placeholder="last name" {...register("lastName")} />
-                {errors ? <p className="text-danger">{errors.lastName?.message}</p> : null}
+                {errors ? <p className="text-danger pt-1">{errors.lastName?.message}</p> : null}
               </Form.Group>
               <Form.Group className="mb-3" controlId="registerBIC">
                 <Form.Control type="string" name="bic" placeholder="bic" {...register("bic")} />
-                {errors ? <p className="text-danger">{errors.bic?.message}</p> : null}
+                {errors ? <p className="text-danger pt-1">{errors.bic?.message}</p> : null}
               </Form.Group>
               <Form.Group className="mb-3" controlId="registerIBAN">
                 <Form.Control type="string" name="iban" placeholder="iban" {...register("iban")} />
-                {errors ? <p className="text-danger">{errors.iban?.message}</p> : null}
+                {errors ? <p className="text-danger pt-1">{errors.iban?.message}</p> : null}
               </Form.Group>
               <Form.Group className="mb-3" controlId="registerVATNumber">
                 <Form.Control type="string" name="vat_number" placeholder="vat #" {...register("vatNumber")} />
-                {errors ? <p className="text-danger">{errors.vatNumber?.message}</p> : null}
+                {errors ? <p className="text-danger pt-1">{errors.vatNumber?.message}</p> : null}
               </Form.Group>
             </div>
 
             <div className={step === 2 ? "d-block" : "d-none"}>
               <Form.Group className="mb-3" controlId="registerline_1">
                 <Form.Control type="string" name="line_1" placeholder="line 1" {...register("line1")} />
-                {errors ? <p className="text-danger">{errors.line1?.message}</p> : null}
+                {errors ? <p className="text-danger pt-1">{errors.line1?.message}</p> : null}
               </Form.Group>
               <Form.Group className="mb-3" controlId="registerline_2">
                 <Form.Control type="string" name="line_2" placeholder="line 2" {...register("line2")} />
-                {errors ? <p className="text-danger">{errors.line2?.message}</p> : null}
+                {errors ? <p className="text-danger pt-1">{errors.line2?.message}</p> : null}
               </Form.Group>
               <Form.Group className="mb-3" controlId="registerTown">
                 <Form.Control type="string" name="town" placeholder="town" {...register("town")} />
-                {errors ? <p className="text-danger">{errors.town?.message}</p> : null}
+                {errors ? <p className="text-danger pt-1">{errors.town?.message}</p> : null}
               </Form.Group>
               <Form.Group className="mb-3" controlId="registerCounty">
                 <Form.Control type="string" name="region" placeholder="region" {...register("region")} />
-                {errors ? <p className="text-danger">{errors.region?.message}</p> : null}
+                {errors ? <p className="text-danger pt-1">{errors.region?.message}</p> : null}
               </Form.Group>
               <Form.Group className="mb-3" controlId="registerCounty">
                 <Form.Control type="string" name="country" placeholder="country" {...register("country")} />
-                {errors ? <p className="text-danger">{errors.country?.message}</p> : null}
+                {errors ? <p className="text-danger pt-1">{errors.country?.message}</p> : null}
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Check
