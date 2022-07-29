@@ -49,7 +49,9 @@ export const Dashboard = () => {
             }).then((response) => {
                 setData(response.data);
                 setYears(response.data.years);
-            }).catch(e => console.log(e));
+            }).catch((e) =>
+                console.log(e)
+            );
         }
     }, [data]);
 
