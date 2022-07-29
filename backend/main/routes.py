@@ -23,11 +23,6 @@ employers_schema = EmployerSchema(many=True)
 employer_schema = EmployerSchema()
 
 
-@app.route("/", methods=["GET"])
-def index():
-    return {"message": "Home"}, 200
-
-
 @app.route("/active")
 @jwt_required()
 def active():
@@ -120,12 +115,16 @@ def login():
 
 
 @app.route("/dashboard", methods=["GET", "POST"])
-@cross_origin(methods=["POST", "GET"], headers=["Content-Type", "Authorization"], origin="http://127.0.0.1:3000")
+@cross_origin(methods=[ "GET", "POST"], headers=["Content-Type", "Authorization"], origin="http://127.0.0.1:3000")
 @jwt_required()
 def dashboard():
     username_of_logged_in_user = get_jwt_identity()
     user = User.query.filter_by(
         username=username_of_logged_in_user).first()
+
+    gross_pay = 0
+    tax_due = 0
+    net_pay = 0
 
     if not user:
         return {"message": "Not found"}, 404
@@ -139,10 +138,6 @@ def dashboard():
 
         serialised_jobs = jobs_schema.dump(jobs)
 
-        gross_pay = 0
-        tax_due = 0
-        net_pay = 0
-
         for job in serialised_jobs:
             gross_pay += job["gross_pay"]
             tax_due += job["tax_due"]
@@ -150,9 +145,6 @@ def dashboard():
 
         return {"year": year, "grossPay": gross_pay, "taxDue": tax_due, "netPay": net_pay}
     else:
-        gross_pay = 0
-        tax_due = 0
-        net_pay = 0
         years = []
 
         jobs_by_years = Job.query.filter_by(user_id=user.id).all()
@@ -165,7 +157,10 @@ def dashboard():
 
         years.sort(reverse=True)
 
-        recent_year = years[0]
+        if not years:
+            recent_year = 0
+        else:
+            recent_year = years[0]
 
         jobs = Job.query.filter(extract("year", Job.date_created)
                                 == recent_year, Job.user_id == user.id).all()
@@ -180,7 +175,7 @@ def dashboard():
 
 
 @app.route("/bank-details", methods=["GET", "PUT"])
-@cross_origin(methods=["PUT", "GET"], headers=["Content-Type", "Authorization"], origin="http://127.0.0.1:3000")
+@cross_origin(methods=[ "GET", "PUT"], headers=["Content-Type", "Authorization"], origin="http://127.0.0.1:3000")
 @jwt_required()
 def updateBankAccount():
     username_of_logged_in_user = get_jwt_identity()
@@ -211,7 +206,7 @@ def updateBankAccount():
 
 
 @app.route("/personal-details", methods=["GET", "PUT"])
-@cross_origin(methods=["PUT", "GET"], headers=["Content-Type", "Authorization"], origin="http://127.0.0.1:3000")
+@cross_origin(methods=["GET", "PUT"], headers=["Content-Type", "Authorization"], origin="http://127.0.0.1:3000")
 @jwt_required()
 def updatePersonalDetails():
     username_of_logged_in_user = get_jwt_identity()
@@ -312,7 +307,7 @@ def records():
 
 
 @app.route("/records/edit/<int:id>", methods=["GET", "PUT"])
-@cross_origin(methods=["PUT", "GET"], headers=["Content-Type", "Authorization"], origin="http://127.0.0.1:3000")
+@cross_origin(methods=["GET", "PUT"], headers=["Content-Type", "Authorization"], origin="http://127.0.0.1:3000")
 @jwt_required()
 def edit_record(id):
     username_of_logged_in_user = get_jwt_identity()
